@@ -1,9 +1,6 @@
 defmodule SaborBrasileiro do
-  @moduledoc """
-  SaborBrasileiro keeps the contexts that define your domain
-  and business logic.
-
-  Contexts are also responsible for managing your data, regardless
-  if it comes from the database, an external API or others.
-  """
+  alias SaborBrasileiro.Users.Create, as: UserCreate
+  alias SaborBrasileiro.Users.Preload, as: UserPreload
+  defdelegate create_user(params), to: UserCreate, as: :call
+  defdelegate preload_user_data(multi, key), to: UserPreload, as: :call
 end
