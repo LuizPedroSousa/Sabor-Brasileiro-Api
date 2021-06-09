@@ -21,6 +21,12 @@ defmodule SaborBrasileiroWeb.Router do
     post "/create", CakeController, :create
   end
 
+  # Cake Categories
+  scope "/cakes", SaborBrasileiroWeb do
+    pipe_through :api
+    post "/categories/create", CakeCategoryController, :create
+  end
+
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put

@@ -1,10 +1,10 @@
 defmodule SaborBrasileiro.Cake do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Ecto.Changeset
   alias SaborBrasileiro.{CakePhoto, CakeCategory}
   @primary_key {:id, :binary_id, autogenerate: true}
-  @required_params [:name, :slug, :stars, :description, :price]
+  @foreign_key_type :binary_id
+  @required_params [:name, :slug, :category_id, :stars, :description, :price]
   schema "cakes" do
     field :name, :string
     field :description, :string
@@ -12,7 +12,7 @@ defmodule SaborBrasileiro.Cake do
     field :price, :string
     field :stars, :integer, default: 0
     has_many :cake_photos, CakePhoto
-    has_one :cake_category, CakeCategory
+    belongs_to :cake_category, CakeCategory, foreign_key: :category_id
     timestamps()
   end
 
@@ -24,5 +24,4 @@ defmodule SaborBrasileiro.Cake do
     |> validate_required(@required_params)
     |> validate_number(:stars, greater_than_or_equal_to: 0, less_than_or_equal_to: 5)
   end
-
 end

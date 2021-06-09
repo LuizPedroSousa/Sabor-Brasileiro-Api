@@ -1,22 +1,30 @@
 defmodule SaborBrasileiro.Cakes.Create do
-  alias Ecto.{Multi, Changeset}
+  alias Ecto.{Multi}
   alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, Repo}
-  import SaborBrasileiro, only: [preload_cake_data: 2]
+  import SaborBrasileiro, only: [preload_cake_data: 2, find_category_name: 1]
 
   def call(params) do
-    Multi.new()
-    |> Multi.insert(
-      :create_cake,
-      Cake.changeset(params)
-    )
-    |> Multi.run(:create_photos, fn repo, %{create_cake: %{id: id}} ->
-      insert_photos(repo, id, params)
-    end)
-    |> Multi.run(:create_category, fn repo, %{create_cake: %{id: id}} ->
-      insert_category(repo, id, params)
-    end)
-    |> preload_cake_data(:create_cake)
-    |> run_transaction
+    case find_category_name(params["category"]) do
+      {:ok, %CakeCategory{id: category_id}} ->
+        Multi.new()
+        |> Multi.insert(
+          :create_cake,
+          cake_changeset(params, category_id)
+        )
+        |> Multi.run(:create_photos, fn repo, %{create_cake: %{id: id}} ->
+          insert_photos(repo, id, params)
+        end)
+        |> preload_cake_data(:create_cake)
+        |> run_transaction
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  defp cake_changeset(params, category_id) do
+    Map.merge(params, %{"category_id" => category_id})
+    |> Cake.changeset()
   end
 
   defp insert_photos(repo, cake_id, params) do
@@ -39,20 +47,6 @@ defmodule SaborBrasileiro.Cakes.Create do
     |> Enum.map(fn photo ->
       CakePhoto.changeset(%{url: photo["url"], cake_id: cake_id})
     end)
-  end
-
-  defp insert_category(repo, cake_id, %{"category" => category}) do
-    category
-    |> category_changeset(cake_id)
-    |> repo.insert()
-  end
-
-  defp category_changeset(name, cake_id) do
-    %{
-      name: name,
-      cake_id: cake_id
-    }
-    |> CakeCategory.changeset()
   end
 
   defp run_transaction(multi) do
