@@ -5,11 +5,11 @@ defmodule SaborBrasileiroWeb.CakeController do
 
   action_fallback SaborBrasileiroWeb.FallbackController
 
-  def index(conn, params) do
-    with {:ok, %Cake{} = cake} <- get_all_cakes() do
+  def index(conn, _params) do
+    with {:ok, cakes} <- get_all_cakes() do
       conn
       |> put_status(:ok)
-      |> render("get.json", cake: cake)
+      |> render("get_all.json", cakes: cakes)
     end
   end
 
@@ -20,5 +20,4 @@ defmodule SaborBrasileiroWeb.CakeController do
       |> render("create.json", cake: cake)
     end
   end
-
 end
