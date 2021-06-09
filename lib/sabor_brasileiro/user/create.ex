@@ -20,7 +20,6 @@ defmodule SaborBrasileiro.Users.Create do
     case params["avatar"] do
       nil ->
         {:error, %{avatar: "avatar can't be blank"}}
-
       _any_result ->
         params["avatar"]["url"] |> avatar_changeset(user_id) |> repo.insert
     end

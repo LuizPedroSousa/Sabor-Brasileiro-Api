@@ -43,7 +43,8 @@ defmodule SaborBrasileiro.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:pbkdf2_elixir, "~> 1.4"}
+      {:pbkdf2_elixir, "~> 1.4"},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
 

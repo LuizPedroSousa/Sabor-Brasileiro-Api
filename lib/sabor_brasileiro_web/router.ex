@@ -9,14 +9,17 @@ defmodule SaborBrasileiroWeb.Router do
     pipe_through :api
   end
 
-  #User
-  scope "/user", SaborBrasileiroWeb do
+  # User
+  scope "/users", SaborBrasileiroWeb do
     pipe_through :api
-    post "create" , UserController, :create
+    post "/create", UserController, :create
   end
 
-
-
+  # Cake
+  scope "/cakes", SaborBrasileiroWeb do
+    pipe_through :api
+    post "/create", CakeController, :create
+  end
 
   # Enables LiveDashboard only for development
   #
