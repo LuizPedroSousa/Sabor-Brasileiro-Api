@@ -23,7 +23,7 @@ defmodule SaborBrasileiro.Cakes.Create do
   end
 
   defp cake_changeset(params, category_id) do
-    Map.merge(params, %{"category_id" => category_id})
+    Map.merge(params, %{"cake_category_id" => category_id})
     |> Cake.changeset()
   end
 

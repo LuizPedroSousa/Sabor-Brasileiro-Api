@@ -8,6 +8,7 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateCake do
       add :price, :string
       add :description, :string
       add :stars, :integer
+      add :is_best, :boolean
       timestamps()
     end
 

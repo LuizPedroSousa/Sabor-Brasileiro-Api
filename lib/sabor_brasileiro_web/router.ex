@@ -20,6 +20,7 @@ defmodule SaborBrasileiroWeb.Router do
     pipe_through :api
     get "/", CakeController, :index
     post "/create", CakeController, :create
+    put "/update/:id", CakeController, :update
   end
 
   # Cake Categories

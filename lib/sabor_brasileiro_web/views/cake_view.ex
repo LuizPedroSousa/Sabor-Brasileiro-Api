@@ -16,30 +16,17 @@ defmodule SaborBrasileiroWeb.CakeView do
     }
   end
 
+  def render("update.json", cake) do
+    %{
+      ok: "cake updated with successfully",
+      cake: get_cake(cake)
+    }
+  end
+
   defp get_many_cakes(cakes) do
     cakes
-    |> Enum.map(fn %Cake{
-                     id: id,
-                     name: name,
-                     description: description,
-                     cake_photos: cake_photos,
-                     slug: slug,
-                     stars: stars,
-                     price: price,
-                     inserted_at: inserted_at,
-                     cake_category: %CakeCategory{name: category_name}
-                   } ->
-      %{
-        id: id,
-        name: name,
-        description: description,
-        photos: format_photos(cake_photos),
-        slug: slug,
-        stars: stars,
-        price: price,
-        category: category_name,
-        inserted_at: inserted_at
-      }
+    |> Enum.map(fn cake ->
+      get_cake(%{cake: cake})
     end)
   end
 
@@ -50,6 +37,7 @@ defmodule SaborBrasileiroWeb.CakeView do
            description: description,
            price: price,
            slug: slug,
+           is_best: is_best,
            stars: stars,
            cake_category: %CakeCategory{
              name: category_name
@@ -62,10 +50,11 @@ defmodule SaborBrasileiroWeb.CakeView do
       id: id,
       name: name,
       description: description,
+      isBest: is_best,
       photos: format_photos(cake_photos),
-      price: price,
       slug: slug,
       stars: stars,
+      price: price,
       category: category_name,
       inserted_at: inserted_at
     }
