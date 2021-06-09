@@ -5,11 +5,11 @@ defmodule SaborBrasileiro.CakeCategory do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  @required_params [:name, :cake_id]
+  @required_params [:name]
 
   schema "cake_category" do
     field :name, :string
-    belongs_to :cake, Cake
+    has_one :cake, Cake
     timestamps()
   end
 

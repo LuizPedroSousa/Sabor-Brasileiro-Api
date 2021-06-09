@@ -18,7 +18,14 @@ defmodule SaborBrasileiroWeb.Router do
   # Cake
   scope "/cakes", SaborBrasileiroWeb do
     pipe_through :api
+    get "/", CakeController, :index
     post "/create", CakeController, :create
+  end
+
+  # Cake Categories
+  scope "/cakes/categories", SaborBrasileiroWeb do
+    pipe_through :api
+    post "/create", CakeCategoryController, :create
   end
 
   # Enables LiveDashboard only for development
