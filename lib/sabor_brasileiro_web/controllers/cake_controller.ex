@@ -1,7 +1,7 @@
 defmodule SaborBrasileiroWeb.CakeController do
   use SaborBrasileiroWeb, :controller
   alias SaborBrasileiro.{Cake}
-  import SaborBrasileiro, only: [create_cake: 1, get_all_cakes: 0]
+  import SaborBrasileiro, only: [create_cake: 1, get_all_cakes: 0, update_cake: 2]
 
   action_fallback SaborBrasileiroWeb.FallbackController
 
@@ -18,6 +18,17 @@ defmodule SaborBrasileiroWeb.CakeController do
       conn
       |> put_status(:created)
       |> render("create.json", cake: cake)
+    end
+  end
+
+  def update(conn, params) do
+    %{"id" => id} = params
+    body = params |> Map.delete("id")
+
+    with {:ok, %Cake{} = cake} <- update_cake(id, body) do
+      conn
+      |> put_status(:ok)
+      |> render("update.json", cake: cake)
     end
   end
 end
