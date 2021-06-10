@@ -13,6 +13,7 @@ defmodule SaborBrasileiro do
   alias SaborBrasileiro.CakeCategories.Create, as: CategoryCreate
   alias SaborBrasileiro.CakeCategories.Preload, as: CategoryPreload
   alias SaborBrasileiro.CakeCategories.Find, as: CategoryFind
+  alias SaborBrasileiro.CakeCategories.Delete, as: CategoryDelete
   alias SaborBrasileiro.CakeCategories.Update, as: CategoryUpdate
 
   # Cakes Categories
@@ -20,6 +21,7 @@ defmodule SaborBrasileiro do
   defdelegate preload_category(multi, key), to: CategoryPreload, as: :call
   defdelegate update_category(id, params), to: CategoryUpdate, as: :call
   defdelegate find_categories(id, params), to: CategoryFind, as: :call
+  defdelegate delete_category(id), to: CategoryDelete, as: :call
 
   # Cakes
   defdelegate create_cake(params), to: CakeCreate, as: :call

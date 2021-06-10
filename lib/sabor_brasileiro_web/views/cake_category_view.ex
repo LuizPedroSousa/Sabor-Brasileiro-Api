@@ -9,13 +9,23 @@ defmodule SaborBrasileiroWeb.CakeCategoryView do
     }
   end
 
- 
-
-
+  def render("get_all.json", %{categories: categories}) do
+    %{
+      ok: "Get categories with successfully",
+      categories: get_many_categories(categories)
+    }
+  end
 
   def render("update.json", category) do
     %{
       ok: "category updated with successfully",
+      category: get_category(category)
+    }
+  end
+
+  def render("delete.json", category) do
+    %{
+      ok: "category deleted with successfully",
       category: get_category(category)
     }
   end

@@ -3,6 +3,7 @@
         "Pbkdf",
         "autogenerate",
         "changesets",
+        "ilike",
         "postgres"
     ]
 }

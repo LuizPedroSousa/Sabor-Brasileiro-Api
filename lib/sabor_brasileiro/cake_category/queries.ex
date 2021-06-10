@@ -1,5 +1,6 @@
 defmodule SaborBrasileiro.CakeCategories.Queries do
   import Ecto.Query
+  alias Ecto.{UUID}
   alias SaborBrasileiro.{CakeCategory, Repo}
 
   def get_category_by_name(name) do
@@ -17,14 +18,20 @@ defmodule SaborBrasileiro.CakeCategories.Queries do
   end
 
   def get_category_by_id(id) do
-    from(c in CakeCategory,
-      where: c.id == ^id,
-      order_by: c.inserted_at
-    )
-    |> Repo.one()
-    |> case do
-      nil -> {:error, "Category not exists"}
-      %CakeCategory{} = category -> {:ok, category}
+    case UUID.cast(id) do
+      :error ->
+        {:error, "Invalid uuid"}
+
+      {:ok, _} ->
+        from(c in CakeCategory,
+          where: c.id == ^id,
+          order_by: c.inserted_at
+        )
+        |> Repo.one()
+        |> case do
+          %CakeCategory{} = category -> {:ok, category}
+          _ -> {:error, "Category not exists"}
+        end
     end
   end
 end
