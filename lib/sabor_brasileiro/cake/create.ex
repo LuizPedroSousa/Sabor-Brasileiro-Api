@@ -1,10 +1,11 @@
 defmodule SaborBrasileiro.Cakes.Create do
   alias Ecto.{Multi}
   alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, Repo}
-  import SaborBrasileiro, only: [preload_cake_data: 2, find_category_name: 1]
+  import SaborBrasileiro, only: [preload_cake_data: 2]
+  import SaborBrasileiro.CakeCategories.Queries, only: [get_category_by_name: 1]
 
   def call(params) do
-    case find_category_name(params["category"]) do
+    case get_category_by_name(params["category"]) do
       {:ok, %CakeCategory{id: category_id}} ->
         Multi.new()
         |> Multi.insert(

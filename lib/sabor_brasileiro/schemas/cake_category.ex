@@ -9,7 +9,7 @@ defmodule SaborBrasileiro.CakeCategory do
 
   schema "cake_category" do
     field :name, :string
-    has_one :cake, Cake
+    has_many :cake, Cake
     timestamps()
   end
 
@@ -18,5 +18,18 @@ defmodule SaborBrasileiro.CakeCategory do
     |> cast(params, @required_params)
     |> validate_required(@required_params)
     |> unique_constraint([:name])
+  end
+
+  def update_changeset(category, params) do
+    formatted_params = format_params(params)
+
+    category
+    |> cast(formatted_params, @required_params)
+    |> validate_required(@required_params)
+    |> change
+  end
+
+  defp format_params(params) do
+    for {key, val} <- params, into: %{}, do: {String.to_atom(key), val}
   end
 end

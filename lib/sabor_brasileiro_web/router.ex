@@ -27,6 +27,7 @@ defmodule SaborBrasileiroWeb.Router do
   scope "/cakes/categories", SaborBrasileiroWeb do
     pipe_through :api
     post "/create", CakeCategoryController, :create
+    put "/update/:id", CakeCategoryController, :update
   end
 
   # Enables LiveDashboard only for development
