@@ -25,7 +25,6 @@ defmodule SaborBrasileiro.Cakes.Update do
   defp cake_changeset(cake, params) do
     data = for {key, val} <- params, into: %{}, do: {String.to_atom(key), val}
     Cake.changeset_update(cake, data)
-    |> IO.inspect()
   end
 
   defp run_transaction(multi) do
