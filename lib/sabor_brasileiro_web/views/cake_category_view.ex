@@ -9,7 +9,7 @@ defmodule SaborBrasileiroWeb.CakeCategoryView do
     }
   end
 
-  def render("get_all.json", %{categories: categories}) do
+  def render("index.json", %{categories: categories}) do
     %{
       ok: "Get categories with successfully",
       categories: get_many_categories(categories)
@@ -32,8 +32,8 @@ defmodule SaborBrasileiroWeb.CakeCategoryView do
 
   defp get_many_categories(categories) do
     categories
-    |> Enum.map(fn cake ->
-      get_category(%{cake: cake})
+    |> Enum.map(fn category ->
+      get_category(%{category: category})
     end)
   end
 

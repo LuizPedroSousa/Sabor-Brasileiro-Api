@@ -1,8 +1,19 @@
 defmodule SaborBrasileiroWeb.CakeCategoryController do
   use SaborBrasileiroWeb, :controller
   alias SaborBrasileiro.{CakeCategory}
-  import SaborBrasileiro, only: [create_cake_category: 1, update_category: 2, delete_category: 1]
+
+  import SaborBrasileiro,
+    only: [create_cake_category: 1, get_categories: 1, update_category: 2, delete_category: 1]
+
   action_fallback SaborBrasileiroWeb.FallbackController
+
+  def index(conn, _params) do
+    with {:ok, categories} <- get_categories(conn.query_params) do
+      conn
+      |> put_status(:ok)
+      |> render("index.json", categories: categories)
+    end
+  end
 
   def create(conn, params) do
     with {:ok, %CakeCategory{} = category} <- create_cake_category(params) do

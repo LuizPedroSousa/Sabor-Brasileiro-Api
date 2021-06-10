@@ -20,7 +20,7 @@ defmodule SaborBrasileiro do
   defdelegate create_cake_category(params), to: CategoryCreate, as: :call
   defdelegate preload_category(multi, key), to: CategoryPreload, as: :call
   defdelegate update_category(id, params), to: CategoryUpdate, as: :call
-  defdelegate find_categories(id, params), to: CategoryFind, as: :call
+  defdelegate get_categories(query), to: CategoryFind, as: :call
   defdelegate delete_category(id), to: CategoryDelete, as: :call
 
   # Cakes

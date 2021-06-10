@@ -26,6 +26,7 @@ defmodule SaborBrasileiroWeb.Router do
   # Cake Categories
   scope "/cakes/categories", SaborBrasileiroWeb do
     pipe_through :api
+    get "/", CakeCategoryController, :index
     post "/create", CakeCategoryController, :create
     put "/update/:id", CakeCategoryController, :update
     delete "/delete/:id", CakeCategoryController, :delete

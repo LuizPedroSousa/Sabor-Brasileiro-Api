@@ -3,12 +3,13 @@ defmodule SaborBrasileiro.CakeCategories.Queries do
   alias Ecto.{UUID}
   alias SaborBrasileiro.{CakeCategory, Repo}
 
+  # One
   def get_category_by_name(name) do
     like_name = "%#{name}%"
 
     from(c in CakeCategory,
       where: ilike(c.name, ^like_name),
-      order_by: c.inserted_at
+      order_by: [desc: c.inserted_at]
     )
     |> Repo.one()
     |> case do
@@ -24,8 +25,7 @@ defmodule SaborBrasileiro.CakeCategories.Queries do
 
       {:ok, _} ->
         from(c in CakeCategory,
-          where: c.id == ^id,
-          order_by: c.inserted_at
+          where: c.id == ^id
         )
         |> Repo.one()
         |> case do
@@ -33,5 +33,30 @@ defmodule SaborBrasileiro.CakeCategories.Queries do
           _ -> {:error, "Category not exists"}
         end
     end
+  end
+
+  # Many
+  def get_categories_by_name(name) do
+    like_name = "%#{name}%"
+
+    from(c in CakeCategory,
+      where: ilike(c.name, ^like_name),
+      order_by: [desc: c.inserted_at]
+    )
+    |> Repo.all()
+    |> case do
+      nil -> {:error, "Category not exists"}
+      categories -> {:ok, categories}
+    end
+  end
+
+  def get_all_categories() do
+    categories =
+      from(c in CakeCategory,
+        order_by: [desc: c.inserted_at]
+      )
+      |> Repo.all()
+
+    {:ok, categories}
   end
 end
