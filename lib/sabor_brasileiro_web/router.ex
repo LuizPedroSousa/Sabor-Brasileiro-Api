@@ -26,6 +26,7 @@ defmodule SaborBrasileiroWeb.Router do
   # BestConfectioner
   scope "/best_confectioners", SaborBrasileiroWeb do
     pipe_through :api
+    get "/", BestConfectionerController, :index
     post "/create", BestConfectionerController, :create
   end
 
