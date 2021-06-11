@@ -16,6 +16,13 @@ defmodule SaborBrasileiroWeb.BestConfectionerView do
     }
   end
 
+  def render("delete.json", %{best_confectioner: best_confectioner}) do
+    %{
+      ok: "Best confectioner deleted with successfully",
+      best_confectioner: get_best_confectioner(best_confectioner)
+    }
+  end
+
   defp get_best_confectioners(best_confectioners) do
     best_confectioners
     |> Enum.map(fn best_confectioner -> best_confectioner |> get_best_confectioner() end)

@@ -43,4 +43,16 @@ defmodule SaborBrasileiro.BestConfectioners.Queries do
     end)
     |> preload_best_confectioner(:get_confectioner)
   end
+
+  def get_best_confectioner_by_id(multi, id) do
+    multi
+    |> Multi.run(:get_confectioner, fn repo, _ ->
+      BestConfectioner
+      |> repo.get_by(%{id: id})
+      |> case do
+        nil -> {:error, "Best confectioner not exists"}
+        %BestConfectioner{} = best_confectioner -> {:ok, best_confectioner}
+      end
+    end)
+  end
 end

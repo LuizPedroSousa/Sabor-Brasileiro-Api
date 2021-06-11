@@ -28,6 +28,7 @@ defmodule SaborBrasileiroWeb.Router do
     pipe_through :api
     get "/", BestConfectionerController, :index
     post "/create", BestConfectionerController, :create
+    delete "/delete/:id", BestConfectionerController, :delete
   end
 
   # Cake Categories
