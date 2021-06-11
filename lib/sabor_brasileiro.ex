@@ -16,6 +16,12 @@ defmodule SaborBrasileiro do
   alias SaborBrasileiro.CakeCategories.Delete, as: CategoryDelete
   alias SaborBrasileiro.CakeCategories.Update, as: CategoryUpdate
 
+  # Best Confectioners
+  alias SaborBrasileiro.BestConfectioners.Create, as: BestConfectionerCreate
+  alias SaborBrasileiro.BestConfectioner.Preload, as: BestConfectionerPreload
+  alias SaborBrasileiro.BestConfectioners.Find, as: BestConfectionerFind
+  alias SaborBrasileiro.BestConfectioners.Delete, as: BestConfectionerDelete
+
   # Cakes Categories
   defdelegate create_cake_category(params), to: CategoryCreate, as: :call
   defdelegate preload_category(multi, key), to: CategoryPreload, as: :call
@@ -32,4 +38,10 @@ defmodule SaborBrasileiro do
   # Users
   defdelegate create_user(params), to: UserCreate, as: :call
   defdelegate preload_user_data(multi, key), to: UserPreload, as: :call
+
+  # Best Confectioners
+  defdelegate create_best_confectioner(id), to: BestConfectionerCreate, as: :call
+  defdelegate delete_best_confectioner(id), to: BestConfectionerDelete, as: :call
+  defdelegate preload_best_confectioner(multi, key), to: BestConfectionerPreload, as: :call
+  defdelegate get_best_confectioners(query), to: BestConfectionerFind, as: :call
 end
