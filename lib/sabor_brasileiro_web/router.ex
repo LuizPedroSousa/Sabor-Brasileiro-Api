@@ -23,6 +23,12 @@ defmodule SaborBrasileiroWeb.Router do
     put "/update/:id", CakeController, :update
   end
 
+  # BestConfectioner
+  scope "/best_confectioners", SaborBrasileiroWeb do
+    pipe_through :api
+    post "/create", BestConfectionerController, :create
+  end
+
   # Cake Categories
   scope "/cakes/categories", SaborBrasileiroWeb do
     pipe_through :api

@@ -8,5 +8,5 @@ defmodule SaborBrasileiro.Users.Preload do
     end)
   end
 
-  defp preload_data(repo, user), do: {:ok, repo.preload(user, :user_avatar)}
+  defp preload_data(repo, user), do: {:ok, repo.preload(user, [:user_avatar, :user_role])}
 end
