@@ -53,7 +53,7 @@ defmodule SaborBrasileiro.Cakes.Create do
   defp run_transaction(multi) do
     case Repo.transaction(multi) do
       {:error, _operation, reason, _changes} -> {:error, reason}
-      {:ok, %{preload_data: cake}} -> {:ok, cake}
+      {:ok, %{preload_cake_data: cake}} -> {:ok, cake}
     end
   end
 end

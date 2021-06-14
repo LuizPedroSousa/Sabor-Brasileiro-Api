@@ -1,15 +1,16 @@
 defmodule SaborBrasileiroWeb.CakeController do
   use SaborBrasileiroWeb, :controller
   alias SaborBrasileiro.{Cake}
-  import SaborBrasileiro, only: [create_cake: 1, get_all_cakes: 0, update_cake: 2]
+  import SaborBrasileiro, only: [create_cake: 1, get_cakes: 1, update_cake: 2]
 
   action_fallback SaborBrasileiroWeb.FallbackController
 
   def index(conn, _params) do
-    with {:ok, cakes} <- get_all_cakes() do
+    query = conn.query_params
+    with {:ok, cakes} <- get_cakes(query) do
       conn
       |> put_status(:ok)
-      |> render("get_all.json", cakes: cakes)
+      |> render("index.json", cakes: cakes)
     end
   end
 

@@ -9,7 +9,7 @@ defmodule SaborBrasileiroWeb.CakeView do
     }
   end
 
-  def render("get_all.json", %{cakes: cakes}) do
+  def render("index.json", %{cakes: cakes}) do
     %{
       ok: "Get all cakes with successfully",
       cakes: get_many_cakes(cakes)
