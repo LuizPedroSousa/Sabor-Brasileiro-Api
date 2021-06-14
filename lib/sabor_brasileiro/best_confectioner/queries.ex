@@ -2,7 +2,7 @@ defmodule SaborBrasileiro.BestConfectioners.Queries do
   import Ecto.Query
   alias Ecto.{Multi}
   alias SaborBrasileiro.{BestConfectioner, Repo}
-  import SaborBrasileiro, only: [preload_best_confectioner: 2]
+  import SaborBrasileiro, only: [preload_best_confectioner: 2, preload_user_data: 2]
 
   # Many
   def get_all_best_confectioners() do
@@ -12,12 +12,15 @@ defmodule SaborBrasileiro.BestConfectioners.Queries do
     |> Repo.all()
   end
 
-  def get_all_best_confectioners(multi) do
+  def get_all_best_confectioners(multi, %{limit: limit} \\ "") do
     multi
     |> Multi.run(:get_all_confectioners, fn repo, _ ->
       confectioners =
         from(b in BestConfectioner,
-          order_by: [desc: b.inserted_at]
+          order_by: [desc: b.inserted_at],
+          join: u in "users",
+          on: u.id == b.user_id,
+          limit: ^limit
         )
         |> repo.all()
 

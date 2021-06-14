@@ -3,7 +3,7 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateUserAvatar do
 
   def change do
     create table :users_avatar do
-      add :url, :string
+      add :url, :text
       add :user_id, references(:users, type: :binary_id)
       timestamps()
     end

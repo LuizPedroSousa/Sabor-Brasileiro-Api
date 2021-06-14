@@ -1,7 +1,10 @@
 defmodule SaborBrasileiroWeb.BestConfectionerController do
   use SaborBrasileiroWeb, :controller
   alias SaborBrasileiro.{BestConfectioner}
-  import SaborBrasileiro, only: [create_best_confectioner: 1, get_best_confectioners: 1, delete_best_confectioner: 1]
+
+  import SaborBrasileiro,
+    only: [create_best_confectioner: 1, get_best_confectioners: 1, delete_best_confectioner: 1]
+
   action_fallback SaborBrasileiroWeb.FallbackController
 
   def index(conn, _params) do

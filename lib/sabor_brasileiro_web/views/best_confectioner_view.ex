@@ -1,6 +1,6 @@
 defmodule SaborBrasileiroWeb.BestConfectionerView do
   use SaborBrasileiroWeb, :view
-  alias SaborBrasileiro.{BestConfectioner, User}
+  alias SaborBrasileiro.{BestConfectioner, UserAvatar, User}
 
   def render("index.json", %{best_confectioners: best_confectioners}) do
     %{
@@ -30,7 +30,13 @@ defmodule SaborBrasileiroWeb.BestConfectionerView do
 
   defp get_best_confectioner(%BestConfectioner{
          id: id,
-         user: %User{id: user_id, name: name, email: email, surname: surname},
+         user: %User{
+           id: user_id,
+           name: name,
+           user_avatar: %UserAvatar{url: url},
+           email: email,
+           surname: surname
+         },
          inserted_at: inserted_at
        }) do
     %{
@@ -39,6 +45,9 @@ defmodule SaborBrasileiroWeb.BestConfectionerView do
         id: user_id,
         name: name,
         email: email,
+        avatar: %{
+          url: url
+        },
         surname: surname
       },
       inserted_at: inserted_at

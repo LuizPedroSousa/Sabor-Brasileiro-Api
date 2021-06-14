@@ -9,5 +9,5 @@ defmodule SaborBrasileiro.BestConfectioner.Preload do
   end
 
   defp preload_best_confectioner(repo, best_confectioner),
-    do: {:ok, repo.preload(best_confectioner, :user)}
+    do: {:ok, repo.preload(best_confectioner, user: :user_avatar)}
 end
