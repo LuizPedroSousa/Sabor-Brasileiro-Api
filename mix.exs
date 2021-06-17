@@ -19,7 +19,7 @@ defmodule SaborBrasileiro.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {SaborBrasileiro.Application, []},
+      mod: {SaborBrasileiro.Application, [:corsica]},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -44,7 +44,8 @@ defmodule SaborBrasileiro.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:pbkdf2_elixir, "~> 1.4"},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:corsica, "~> 1.0"}
     ]
   end
 
