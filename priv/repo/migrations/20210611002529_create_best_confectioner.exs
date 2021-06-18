@@ -3,7 +3,7 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateBestConfectioner do
 
   def change do
     create table :best_confectioners do
-      add :user_id, references(:users, type: :binary_id)
+      add :user_id, references(:users, type: :binary_id, on_delete: :delete_all)
       timestamps()
     end
 

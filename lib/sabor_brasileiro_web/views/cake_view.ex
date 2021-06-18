@@ -2,13 +2,6 @@ defmodule SaborBrasileiroWeb.CakeView do
   use SaborBrasileiroWeb, :view
   alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory}
 
-  def render("create.json", cake) do
-    %{
-      ok: "cake created with successfully",
-      cake: get_cake(cake)
-    }
-  end
-
   def render("index.json", %{cakes: cakes}) do
     %{
       ok: "Get all cakes with successfully",
@@ -16,10 +9,26 @@ defmodule SaborBrasileiroWeb.CakeView do
     }
   end
 
+  def render("create.json", cake) do
+    %{
+      ok: "cake created with successfully",
+      cake: get_cake(cake)
+    }
+  end
+
+
+
   def render("update.json", cake) do
     %{
       ok: "cake updated with successfully",
       cake: get_cake(cake)
+    }
+  end
+
+  def render("delete.json", %{cakes: cakes}) do
+    %{
+      ok: "cakes deleteds with successfully",
+      cakes: get_many_cakes(cakes)
     }
   end
 

@@ -19,6 +19,7 @@ defmodule SaborBrasileiroWeb.Router do
   scope "/cakes", SaborBrasileiroWeb do
     pipe_through :api
     get "/", CakeController, :index
+    delete "/delete/:id", CakeController, :delete
     post "/create", CakeController, :create
     put "/update/:id", CakeController, :update
   end
