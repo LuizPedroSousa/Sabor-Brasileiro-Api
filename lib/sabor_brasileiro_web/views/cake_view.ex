@@ -1,6 +1,6 @@
 defmodule SaborBrasileiroWeb.CakeView do
   use SaborBrasileiroWeb, :view
-  alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory}
+  alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, CakeIngredient}
 
   def render("index.json", %{cakes: cakes}) do
     %{
@@ -16,7 +16,12 @@ defmodule SaborBrasileiroWeb.CakeView do
     }
   end
 
-
+  def render("show.json", cake) do
+    %{
+      ok: "Show cake data with successfully",
+      cake: get_cake(cake)
+    }
+  end
 
   def render("update.json", cake) do
     %{
@@ -52,6 +57,7 @@ defmodule SaborBrasileiroWeb.CakeView do
              name: category_name
            },
            cake_photos: cake_photos,
+           cake_ingredients: cake_ingredients,
            inserted_at: inserted_at
          }
        }) do
@@ -65,6 +71,7 @@ defmodule SaborBrasileiroWeb.CakeView do
       stars: stars,
       price: price,
       category: category_name,
+      ingredients: format_ingredients(cake_ingredients),
       inserted_at: inserted_at
     }
   end
@@ -73,6 +80,13 @@ defmodule SaborBrasileiroWeb.CakeView do
     photos
     |> Enum.map(fn %CakePhoto{id: id, url: url, cake_id: cake_id, inserted_at: inserted_at} ->
       %{id: id, url: url, inserted_at: inserted_at, cake: cake_id}
+    end)
+  end
+
+  defp format_ingredients(ingredients) do
+    ingredients
+    |> Enum.map(fn %CakeIngredient{id: id, name: name, cake_id: cake_id, inserted_at: inserted_at} ->
+      %{id: id, name: name, inserted_at: inserted_at, cake: cake_id}
     end)
   end
 end

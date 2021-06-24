@@ -8,5 +8,12 @@ defmodule SaborBrasileiro.Cakes.Preload do
     end)
   end
 
-  defp preload_data(repo, cake), do: {:ok, repo.preload(cake, [:cake_photos, :cake_category])}
+  defp preload_data(repo, cake),
+    do:
+      {:ok,
+       repo.preload(cake, [
+         :cake_photos,
+         :cake_ingredients,
+         :cake_category
+       ])}
 end

@@ -1,6 +1,6 @@
 defmodule SaborBrasileiro.Cakes.Create do
   alias Ecto.{Multi}
-  alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, Repo}
+  alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, CakeIngredient, Repo}
   import SaborBrasileiro, only: [preload_cake_data: 2]
   import SaborBrasileiro.CakeCategories.Queries, only: [get_category_by_name: 1]
 
@@ -12,8 +12,11 @@ defmodule SaborBrasileiro.Cakes.Create do
           :create_cake,
           cake_changeset(params, category_id)
         )
-        |> Multi.run(:create_photos, fn repo, %{create_cake: %{id: id}} ->
+        |> Multi.run(:create_photos, fn repo, %{create_cake: %Cake{id: id}} ->
           insert_photos(repo, id, params)
+        end)
+        |> Multi.run(:create_ingredients, fn repo, %{create_cake: %Cake{id: id}} ->
+          insert_ingredients(repo, id, params)
         end)
         |> preload_cake_data(:create_cake)
         |> run_transaction
@@ -47,6 +50,28 @@ defmodule SaborBrasileiro.Cakes.Create do
     photos
     |> Enum.map(fn photo ->
       CakePhoto.changeset(%{url: photo["url"], cake_id: cake_id})
+    end)
+  end
+
+  defp insert_ingredients(repo, cake_id, params) do
+    case params["ingredients"] do
+      nil ->
+        {:error, %{ingredients: "ingredients: can't be blank"}}
+
+      _any_value ->
+        ingredients =
+          params["ingredients"]
+          |> ingredients_changesets(cake_id)
+          |> Enum.map(fn ingredient -> repo.insert(ingredient) end)
+
+        {:ok, ingredients}
+    end
+  end
+
+  defp ingredients_changesets(ingredients, cake_id) do
+    ingredients
+    |> Enum.map(fn ingredient ->
+      CakeIngredient.changeset(%{name: ingredient["name"], cake_id: cake_id})
     end)
   end
 
