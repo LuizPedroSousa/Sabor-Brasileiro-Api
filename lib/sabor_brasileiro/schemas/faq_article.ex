@@ -1,0 +1,30 @@
+defmodule SaborBrasileiro.FaqArticle do
+  use Ecto.Schema
+  import Ecto.Changeset
+  alias Ecto.{Changeset}
+  alias SaborBrasileiro.{FaqArticleCategory}
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
+  @required_params [:title, :description, :faq_article_category_id]
+
+  schema "faq_articles" do
+    field :title, :string
+    field :slug, :string
+    field :description, :string
+    belongs_to :faq_article_category, FaqArticleCategory
+    timestamps()
+  end
+
+  def changeset(params) do
+    %__MODULE__{}
+    |> cast(params, @required_params)
+    |> validate_required(@required_params)
+    |> put_slug()
+  end
+
+  defp put_slug(%Changeset{valid?: true, changes: %{title: title}} = changeset) do
+    changeset |> change(%{title: Slugify.slugify(title)})
+  end
+
+  defp put_slug(changeset), do: changeset
+end

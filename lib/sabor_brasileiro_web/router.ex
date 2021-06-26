@@ -41,13 +41,12 @@ defmodule SaborBrasileiroWeb.Router do
     delete "/delete/:id", CakeCategoryController, :delete
   end
 
-  # Enables LiveDashboard only for development
-  #
-  # If you want to use the LiveDashboard in production, you should put
-  # it behind authentication and allow only admins to access it.
-  # If your application does not have an admins-only section yet,
-  # you can use Plug.BasicAuth to set up some basic authentication
-  # as long as you are also using SSL (which you should anyway).
+  # FAQ
+  scope "/faq", SaborBrasileiroWeb do
+    pipe_through :api
+    post "/articles/categories/create" , FAQController, :create_article_category
+  end
+
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 
