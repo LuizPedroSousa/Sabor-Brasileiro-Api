@@ -100,7 +100,7 @@ defmodule SaborBrasileiro.Cakes.Queries do
       end
     end)
     |> preload_cake_data(:get_cakes)
-    |> Multi.delete_all(:delete_relations, fn _ ->
+    |> Multi.delete_all(:delete_photos, fn _ ->
       from(p in CakePhoto,
         where: p.cake_id in ^ids
       )
