@@ -16,6 +16,12 @@ defmodule SaborBrasileiroWeb.FAQView do
     }
   end
 
+  def render("show_article_category.json", %{category: category}) do
+    %{
+      ok: "Show article category with successfully",
+      category: get_article_category(category)
+    }
+  end
 
   def render("delete_article_categories.json", %{categories: categories}) do
     %{

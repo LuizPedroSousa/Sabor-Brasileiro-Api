@@ -27,6 +27,7 @@ defmodule SaborBrasileiro do
   alias SaborBrasileiro.ArticleCategory.Create, as: ArticleCategoryCreate
   alias SaborBrasileiro.ArticleCategory.Find, as: ArticleCategoryFind
   alias SaborBrasileiro.ArticleCategory.Delete, as: ArticleCategoryDelete
+  alias SaborBrasileiro.ArticleCategory.Show, as: ArticleCategoryShow
 
   # Cakes Categories
   defdelegate create_cake_category(params), to: CategoryCreate, as: :call
@@ -56,4 +57,5 @@ defmodule SaborBrasileiro do
   defdelegate create_article_category(params), to: ArticleCategoryCreate, as: :call
   defdelegate find_article_category(query_params), to: ArticleCategoryFind, as: :call
   defdelegate delete_article_categories(ids), to: ArticleCategoryDelete, as: :call
+  defdelegate show_article_category(slug), to: ArticleCategoryShow, as: :call
 end

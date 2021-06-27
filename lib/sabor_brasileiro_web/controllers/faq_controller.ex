@@ -13,6 +13,15 @@ defmodule SaborBrasileiroWeb.FAQController do
     end
   end
 
+  def show_article_category(conn, %{"slug" => slug}) do
+    with {:ok, %FAQArticleCategory{} = category} <-
+           SaborBrasileiro.show_article_category(slug) do
+      conn
+      |> put_status(:ok)
+      |> render("show_article_category.json", category: category)
+    end
+  end
+
   def find_article_categories(conn, _params) do
     with {:ok, categories} <-
            SaborBrasileiro.find_article_category(conn.query_params) do
@@ -28,6 +37,6 @@ defmodule SaborBrasileiroWeb.FAQController do
       conn
       |> put_status(:ok)
       |> render("delete_article_categories.json", categories: categories)
-      end
+    end
   end
 end
