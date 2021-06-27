@@ -46,6 +46,7 @@ defmodule SaborBrasileiroWeb.Router do
     pipe_through :api
     get "/articles/categories" , FAQController, :find_article_categories
     post "/articles/categories/create" , FAQController, :create_article_category
+    delete "/articles/categories/delete/:ids" , FAQController, :delete_article_categories
   end
 
   if Mix.env() in [:dev, :test] do

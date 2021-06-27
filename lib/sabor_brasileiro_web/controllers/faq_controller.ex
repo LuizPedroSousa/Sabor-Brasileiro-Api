@@ -21,4 +21,13 @@ defmodule SaborBrasileiroWeb.FAQController do
       |> render("find_article_categories.json", categories: categories)
     end
   end
+
+  def delete_article_categories(conn, %{"ids" => ids}) do
+    with {:ok, categories} <-
+           SaborBrasileiro.delete_article_categories(ids) do
+      conn
+      |> put_status(:ok)
+      |> render("delete_article_categories.json", categories: categories)
+      end
+  end
 end

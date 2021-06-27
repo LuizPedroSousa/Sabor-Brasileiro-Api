@@ -21,6 +21,10 @@ defmodule SaborBrasileiro.ArticleCategory.Queries do
     where(query, [ac], ilike(ac.name, ^name_like))
   end
 
+  defp compose_query({"ids", ids}, query) do
+    where(query, [ac], ac.id in ^ids)
+  end
+
   defp compose_query(_unsupported_param, query) do
     query
   end

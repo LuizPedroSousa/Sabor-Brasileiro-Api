@@ -16,6 +16,13 @@ defmodule SaborBrasileiroWeb.FAQView do
     }
   end
 
+  def render("delete_article_categories.json", %{categories: categories}) do
+    %{
+      ok: "article categories has deleted with successfully",
+      categories: get_many_article_categories(categories)
+    }
+  end
+
   defp get_many_article_categories(categories) do
     categories
     |> Enum.map(fn category ->

@@ -4,8 +4,8 @@ defmodule SaborBrasileiro.Cakes.Delete do
   alias SaborBrasileiro.Cakes.Queries
 
   def call(id) do
-    idList = id |> String.split(",")
-    Multi.new() |> Queries.delete_with_ids(idList) |> run_transaction
+    id_list = id |> String.split(",")
+    Multi.new() |> Queries.delete_with_ids(id_list) |> run_transaction
 
     # Multi.new() |> find_with_ids(id) |> run_transaction
   end
