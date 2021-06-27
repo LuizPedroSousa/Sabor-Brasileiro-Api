@@ -4,6 +4,7 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateFaqArticleCategory do
   def change do
     create table :faq_articles_categories do
       add :name, :string
+      add :slug, :string
       timestamps()
     end
 

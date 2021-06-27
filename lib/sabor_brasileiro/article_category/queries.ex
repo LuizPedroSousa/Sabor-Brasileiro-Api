@@ -4,12 +4,15 @@ defmodule SaborBrasileiro.ArticleCategory.Queries do
   alias SaborBrasileiro.{FAQArticleCategory}
 
   def get_with(query) do
-    base_query()
+    base_query(query)
     |> build_query(query)
   end
 
-  defp base_query do
-    from(ac in FAQArticleCategory)
+  defp base_query(query) do
+    from(ac in FAQArticleCategory,
+      order_by: [desc: ac.inserted_at],
+      limit: ^query["_limit"]
+    )
   end
 
   defp build_query(query, criteria) do
@@ -23,6 +26,10 @@ defmodule SaborBrasileiro.ArticleCategory.Queries do
 
   defp compose_query({"ids", ids}, query) do
     where(query, [ac], ac.id in ^ids)
+  end
+
+  defp compose_query({"slug", slug}, query) do
+    where(query, [ac], ac.slug == ^slug)
   end
 
   defp compose_query(_unsupported_param, query) do

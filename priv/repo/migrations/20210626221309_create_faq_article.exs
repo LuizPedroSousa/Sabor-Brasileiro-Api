@@ -3,7 +3,6 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateFaqArticle do
 
   def change do
     create table :faq_articles do
-      add :name, :string
       add :title, :string
       add :slug, :string
       add :description, :text
@@ -11,7 +10,7 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateFaqArticle do
       timestamps()
     end
 
-    create unique_index(:faq_articles, [:name])
+    create unique_index(:faq_articles, [:title])
     create unique_index(:faq_articles, [:slug])
   end
 end

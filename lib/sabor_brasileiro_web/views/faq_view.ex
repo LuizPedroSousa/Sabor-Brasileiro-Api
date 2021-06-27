@@ -16,6 +16,7 @@ defmodule SaborBrasileiroWeb.FAQView do
     }
   end
 
+
   def render("delete_article_categories.json", %{categories: categories}) do
     %{
       ok: "article categories has deleted with successfully",
@@ -34,12 +35,14 @@ defmodule SaborBrasileiroWeb.FAQView do
          id: id,
          name: name,
          faq_article: articles,
+         slug: slug,
          inserted_at: inserted_at
        }) do
     %{
       id: id,
       articles: get_many_articles(articles),
       name: name,
+      slug: slug,
       inserted_at: inserted_at
     }
   end

@@ -19,11 +19,13 @@ defmodule SaborBrasileiro.FAQArticle do
     %__MODULE__{}
     |> cast(params, @required_params)
     |> validate_required(@required_params)
+    |> unique_constraint([:title])
     |> put_slug()
+    |> unique_constraint([:slug])
   end
 
   defp put_slug(%Changeset{valid?: true, changes: %{title: title}} = changeset) do
-    changeset |> change(%{title: Slugify.slugify(title)})
+    changeset |> change(%{slug: Slugify.slugify(title)})
   end
 
   defp put_slug(changeset), do: changeset
