@@ -44,6 +44,7 @@ defmodule SaborBrasileiroWeb.Router do
   # FAQ
   scope "/faq", SaborBrasileiroWeb do
     pipe_through :api
+    get "/articles/categories" , FAQController, :find_article_categories
     post "/articles/categories/create" , FAQController, :create_article_category
   end
 

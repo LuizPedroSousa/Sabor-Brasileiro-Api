@@ -1,12 +1,12 @@
-defmodule SaborBrasileiro.FaqArticleCategory do
+defmodule SaborBrasileiro.FAQArticleCategory do
   use Ecto.Schema
   import Ecto.Changeset
-  alias SaborBrasileiro.{FaqArticle}
+  alias SaborBrasileiro.{FAQArticle}
   @primary_key {:id, :binary_id, autogenerate: true}
   @required_params [:name]
   schema "faq_articles_categories" do
     field :name, :string
-    has_many :faq_article, FaqArticle
+    has_many :faq_article, FAQArticle
     timestamps()
   end
 

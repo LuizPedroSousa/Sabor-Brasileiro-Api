@@ -1,8 +1,8 @@
-defmodule SaborBrasileiro.FaqArticle do
+defmodule SaborBrasileiro.FAQArticle do
   use Ecto.Schema
   import Ecto.Changeset
   alias Ecto.{Changeset}
-  alias SaborBrasileiro.{FaqArticleCategory}
+  alias SaborBrasileiro.{FAQArticleCategory}
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   @required_params [:title, :description, :faq_article_category_id]
@@ -11,7 +11,7 @@ defmodule SaborBrasileiro.FaqArticle do
     field :title, :string
     field :slug, :string
     field :description, :string
-    belongs_to :faq_article_category, FaqArticleCategory
+    belongs_to :faq_article_category, FAQArticleCategory
     timestamps()
   end
 
