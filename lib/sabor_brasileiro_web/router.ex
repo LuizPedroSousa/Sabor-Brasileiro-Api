@@ -47,6 +47,7 @@ defmodule SaborBrasileiroWeb.Router do
     # Articles
     get "/articles", FAQController, :find_articles
     post "/articles/create", FAQController, :create_article
+    get "/articles/show/:slug", FAQController, :show_article
 
     # Categories
     get "/articles/categories", FAQController, :find_article_categories

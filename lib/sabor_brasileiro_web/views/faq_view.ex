@@ -37,6 +37,13 @@ defmodule SaborBrasileiroWeb.FAQView do
     }
   end
 
+  def render("show_article.json", %{article: article}) do
+    %{
+      ok: "Show article with successfully",
+      article: get_article(article)
+    }
+  end
+
   def render("delete_article_categories.json", %{categories: categories}) do
     %{
       ok: "article categories has deleted with successfully",

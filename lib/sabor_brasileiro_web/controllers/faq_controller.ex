@@ -31,6 +31,15 @@ defmodule SaborBrasileiroWeb.FAQController do
     end
   end
 
+  def show_article(conn, %{"slug" => slug}) do
+    with {:ok, %FAQArticle{} = article} <-
+           SaborBrasileiro.show_article(slug) do
+      conn
+      |> put_status(:ok)
+      |> render("show_article.json", article: article)
+    end
+  end
+
   def find_article_categories(conn, _params) do
     with {:ok, categories} <-
            SaborBrasileiro.find_article_category(conn.query_params) do
