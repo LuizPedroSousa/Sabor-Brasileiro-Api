@@ -40,6 +40,15 @@ defmodule SaborBrasileiroWeb.FAQController do
     end
   end
 
+  def find_articles(conn, _params) do
+    with {:ok, articles} <-
+           SaborBrasileiro.find_article(conn.query_params) do
+      conn
+      |> put_status(:ok)
+      |> render("find_articles.json", articles: articles)
+    end
+  end
+
   def delete_article_categories(conn, %{"ids" => ids}) do
     with {:ok, categories} <-
            SaborBrasileiro.delete_article_categories(ids) do

@@ -41,7 +41,7 @@ defmodule SaborBrasileiro.FAQ.ArticlesCategories.Queries do
     |> Multi.run(:preload_faq_article_category_data, fn repo, map ->
       {:ok,
        repo.preload(map[key], [
-         :faq_article
+         faq_article: :faq_article_category
        ])}
     end)
   end

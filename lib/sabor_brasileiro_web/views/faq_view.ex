@@ -23,6 +23,13 @@ defmodule SaborBrasileiroWeb.FAQView do
     }
   end
 
+  def render("find_articles.json", %{articles: articles}) do
+    %{
+      ok: "Get articles with successfully",
+      articles: get_many_articles(articles)
+    }
+  end
+
   def render("show_article_category.json", %{category: category}) do
     %{
       ok: "Show article category with successfully",

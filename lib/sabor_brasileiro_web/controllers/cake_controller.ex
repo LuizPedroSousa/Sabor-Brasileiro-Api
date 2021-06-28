@@ -17,6 +17,14 @@ defmodule SaborBrasileiroWeb.CakeController do
     end
   end
 
+  def show(conn, %{"slug" => slug}) do
+    with {:ok, %Cake{} = cake} <- show_cake(slug) do
+      conn
+      |> put_status(:ok)
+      |> render("show.json", cake: cake)
+    end
+  end
+
   def create(conn, params) do
     with {:ok, %Cake{} = cake} <- create_cake(params) do
       conn
