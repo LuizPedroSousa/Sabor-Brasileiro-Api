@@ -1,7 +1,7 @@
-defmodule SaborBrasileiro.ArticleCategory.Show do
+defmodule SaborBrasileiro.FAQ.ArticlesCategories.Show do
   alias Ecto.{Multi}
   alias SaborBrasileiro.{FAQArticleCategory, Repo}
-  alias SaborBrasileiro.ArticleCategory.Queries
+  alias SaborBrasileiro.FAQ.ArticlesCategories.Queries
 
   def call(slug) do
     Multi.new()

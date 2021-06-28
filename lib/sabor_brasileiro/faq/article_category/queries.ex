@@ -1,4 +1,4 @@
-defmodule SaborBrasileiro.ArticleCategory.Queries do
+defmodule SaborBrasileiro.FAQ.ArticlesCategories.Queries do
   import Ecto.Query
   alias Ecto.{Multi}
   alias SaborBrasileiro.{FAQArticleCategory}

@@ -1,7 +1,7 @@
-defmodule SaborBrasileiro.ArticleCategory.Create do
+defmodule SaborBrasileiro.FAQ.ArticlesCategories.Create do
   alias Ecto.{Multi}
   alias SaborBrasileiro.{Repo, FAQArticleCategory}
-  alias SaborBrasileiro.ArticleCategory.Queries
+  alias SaborBrasileiro.FAQ.ArticlesCategories.Queries
 
   def call(params) do
     Multi.new()

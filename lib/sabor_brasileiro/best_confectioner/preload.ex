@@ -1,4 +1,4 @@
-defmodule SaborBrasileiro.BestConfectioner.Preload do
+defmodule SaborBrasileiro.BestConfectioners.Preload do
   alias Ecto.{Multi}
 
   def call(multi, key) do

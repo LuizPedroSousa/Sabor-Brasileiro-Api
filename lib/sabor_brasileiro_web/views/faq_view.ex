@@ -9,6 +9,13 @@ defmodule SaborBrasileiroWeb.FAQView do
     }
   end
 
+  def render("create_article.json", %{article: article}) do
+    %{
+      ok: "article created with successfully",
+      article: get_article(article)
+    }
+  end
+
   def render("find_article_categories.json", %{categories: categories}) do
     %{
       ok: "Get article categories with successfully",
@@ -65,11 +72,15 @@ defmodule SaborBrasileiroWeb.FAQView do
          title: title,
          description: description,
          slug: slug,
+         faq_article_category: %FAQArticleCategory{
+           name: category_name
+         },
          inserted_at: inserted_at
        }) do
     %{
       id: id,
       title: title,
+      category: category_name,
       description: description,
       slug: slug,
       inserted_at: inserted_at

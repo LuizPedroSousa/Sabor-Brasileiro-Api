@@ -1,5 +1,5 @@
-defmodule SaborBrasileiro.ArticleCategory.Find do
-  alias SaborBrasileiro.ArticleCategory.Queries
+defmodule SaborBrasileiro.FAQ.ArticlesCategories.Find do
+  alias SaborBrasileiro.FAQ.ArticlesCategories.Queries
   alias SaborBrasileiro.{Repo}
   alias Ecto.{Multi}
 

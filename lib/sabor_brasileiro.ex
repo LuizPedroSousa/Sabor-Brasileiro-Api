@@ -19,15 +19,18 @@ defmodule SaborBrasileiro do
 
   # Best Confectioners
   alias SaborBrasileiro.BestConfectioners.Create, as: BestConfectionerCreate
-  alias SaborBrasileiro.BestConfectioner.Preload, as: BestConfectionerPreload
+  alias SaborBrasileiro.BestConfectioners.Preload, as: BestConfectionerPreload
   alias SaborBrasileiro.BestConfectioners.Find, as: BestConfectionerFind
   alias SaborBrasileiro.BestConfectioners.Delete, as: BestConfectionerDelete
 
   # FAQ Articles Categories
-  alias SaborBrasileiro.ArticleCategory.Create, as: ArticleCategoryCreate
-  alias SaborBrasileiro.ArticleCategory.Find, as: ArticleCategoryFind
-  alias SaborBrasileiro.ArticleCategory.Delete, as: ArticleCategoryDelete
-  alias SaborBrasileiro.ArticleCategory.Show, as: ArticleCategoryShow
+  alias SaborBrasileiro.FAQ.ArticlesCategories.Create, as: FAQArticleCategoryCreate
+  alias SaborBrasileiro.FAQ.ArticlesCategories.Find, as: FAQArticleCategoryFind
+  alias SaborBrasileiro.FAQ.ArticlesCategories.Delete, as: FAQArticleCategoryDelete
+  alias SaborBrasileiro.FAQ.ArticlesCategories.Show, as: FAQArticleCategoryShow
+
+  # FAQ Articles
+  alias SaborBrasileiro.FAQ.Articles.Create, as: FAQArticleCreate
 
   # Cakes Categories
   defdelegate create_cake_category(params), to: CategoryCreate, as: :call
@@ -54,8 +57,11 @@ defmodule SaborBrasileiro do
   defdelegate get_best_confectioners(query), to: BestConfectionerFind, as: :call
 
   # FAQ Articles Categories
-  defdelegate create_article_category(params), to: ArticleCategoryCreate, as: :call
-  defdelegate find_article_category(query_params), to: ArticleCategoryFind, as: :call
-  defdelegate delete_article_categories(ids), to: ArticleCategoryDelete, as: :call
-  defdelegate show_article_category(slug), to: ArticleCategoryShow, as: :call
+  defdelegate create_article_category(params), to: FAQArticleCategoryCreate, as: :call
+  defdelegate find_article_category(query_params), to: FAQArticleCategoryFind, as: :call
+  defdelegate delete_article_categories(ids), to: FAQArticleCategoryDelete, as: :call
+  defdelegate show_article_category(slug), to: FAQArticleCategoryShow, as: :call
+
+  # FAQ Articles
+  defdelegate create_article(params), to: FAQArticleCreate, as: :call
 end

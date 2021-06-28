@@ -1,8 +1,8 @@
-defmodule SaborBrasileiro.ArticleCategory.Delete do
+defmodule SaborBrasileiro.FAQ.ArticlesCategories.Delete do
   import Ecto.Query
   alias Ecto.{Multi}
   alias SaborBrasileiro.{Repo, FAQArticle, FAQArticleCategory}
-  alias SaborBrasileiro.ArticleCategory.Queries
+  alias SaborBrasileiro.FAQ.ArticlesCategories.Queries
   import SaborBrasileiro.Utils.Id, only: [validate_ids: 1]
 
   def call(ids) do
