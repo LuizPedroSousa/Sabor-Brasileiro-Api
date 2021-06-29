@@ -1,6 +1,6 @@
 defmodule SaborBrasileiroWeb.FAQView do
   use SaborBrasileiroWeb, :view
-  alias SaborBrasileiro.{FAQArticleCategory, FAQArticle}
+  alias SaborBrasileiro.{FAQArticleCategory, FAQArticle, FAQSolicitation}
 
   def render("create_article_category.json", %{category: category}) do
     %{
@@ -13,6 +13,13 @@ defmodule SaborBrasileiroWeb.FAQView do
     %{
       ok: "article created with successfully",
       article: get_article(article)
+    }
+  end
+
+  def render("create_solicitation.json", %{solicitation: solicitation}) do
+    %{
+      ok: "solicitation created with successfully",
+      solicitation: get_solicitation(solicitation)
     }
   end
 
@@ -98,6 +105,24 @@ defmodule SaborBrasileiroWeb.FAQView do
       description: description,
       slug: slug,
       inserted_at: inserted_at
+    }
+  end
+
+  defp get_solicitation(%FAQSolicitation{
+         id: id,
+         name: name,
+         email: email,
+         reason: reason,
+         surname: surname,
+         description: description
+       }) do
+    %{
+      id: id,
+      name: name,
+      email: email,
+      reason: reason,
+      surname: surname,
+      description: description
     }
   end
 end

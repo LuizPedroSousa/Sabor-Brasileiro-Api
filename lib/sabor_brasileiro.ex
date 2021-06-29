@@ -35,6 +35,9 @@ defmodule SaborBrasileiro do
   alias SaborBrasileiro.FAQ.Articles.Find, as: FAQArticleFind
   alias SaborBrasileiro.FAQ.Articles.Show, as: FAQArticleShow
 
+  # FAQ Solicitations
+  alias SaborBrasileiro.FAQ.Solicitations.Create, as: FAQSolicitationCreate
+
   # Cakes Categories
   defdelegate create_cake_category(params), to: CategoryCreate, as: :call
   defdelegate preload_category(multi, key), to: CategoryPreload, as: :call
@@ -70,4 +73,6 @@ defmodule SaborBrasileiro do
   defdelegate create_article(params), to: FAQArticleCreate, as: :call
   defdelegate find_article(query_params), to: FAQArticleFind, as: :call
   defdelegate show_article(slug), to: FAQArticleShow, as: :call
+
+  defdelegate create_solicitation(params), to: FAQSolicitationCreate, as: :call
 end

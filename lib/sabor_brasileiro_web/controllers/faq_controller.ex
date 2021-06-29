@@ -1,6 +1,6 @@
 defmodule SaborBrasileiroWeb.FAQController do
   use SaborBrasileiroWeb, :controller
-  alias SaborBrasileiro.{FAQArticleCategory, FAQArticle}
+  alias SaborBrasileiro.{FAQArticleCategory, FAQArticle, FAQSolicitation}
 
   action_fallback SaborBrasileiroWeb.FallbackController
 
@@ -19,6 +19,15 @@ defmodule SaborBrasileiroWeb.FAQController do
       conn
       |> put_status(:created)
       |> render("create_article.json", article: article)
+    end
+  end
+
+  def create_solicitation(conn, params) do
+    with {:ok, %FAQSolicitation{} = solicitation} <-
+           SaborBrasileiro.create_solicitation(params) do
+      conn
+      |> put_status(:created)
+      |> render("create_solicitation.json", solicitation: solicitation)
     end
   end
 
