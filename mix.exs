@@ -45,6 +45,7 @@ defmodule SaborBrasileiro.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:pbkdf2_elixir, "~> 1.4"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:corsica, "~> 1.0"},
       {:slugger, "~> 0.3"}
     ]
   end

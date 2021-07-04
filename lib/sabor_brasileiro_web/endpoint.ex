@@ -48,6 +48,13 @@ defmodule SaborBrasileiroWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug SaborBrasileiroWeb.Plugs.Cors
+
+  plug Corsica,
+    origins: "*",
+    log: [rejected: :error, invalid: :warn, accepted: :debug],
+    allow_headers: :all,
+    allow_methods: :all,
+    allow_credentials: true
+
   plug SaborBrasileiroWeb.Router
 end
