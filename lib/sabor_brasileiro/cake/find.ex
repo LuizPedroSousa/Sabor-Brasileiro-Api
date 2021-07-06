@@ -1,17 +1,19 @@
 defmodule SaborBrasileiro.Cakes.Find do
   alias Ecto.{Multi}
-  alias SaborBrasileiro.{Cake, Repo}
+  alias SaborBrasileiro.{Repo, Cakes.Queries}
 
-  import SaborBrasileiro.Cakes.Queries,
-    only: [get_all_cakes: 1, get_cakes_with: 2]
-
-  def call(query) do
-    multi = Multi.new()
-
-    case query do
-      _any_value -> multi |> get_cakes_with(query) |> run_transaction
-      %{} -> multi |> get_all_cakes |> run_transaction
-    end
+  def call(query_params) do
+    Multi.new()
+    |> Multi.run(:get_cakes, fn repo, _ ->
+      Queries.get_with(query_params)
+      |> repo.all()
+      |> case do
+        [] -> {:error, "Cake not found"}
+        cakes -> {:ok, cakes}
+      end
+    end)
+    |> Queries.preload_data(:get_cakes)
+    |> run_transaction
   end
 
   defp run_transaction(multi) do

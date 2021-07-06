@@ -4,6 +4,7 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateCakeCategory do
   def change do
     create table :cake_category do
       add :name, :string
+      add :slug, :string
       timestamps()
     end
 

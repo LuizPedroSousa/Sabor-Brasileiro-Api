@@ -21,7 +21,7 @@ defmodule SaborBrasileiroWeb.Router do
     get "/", CakeController, :index
     delete "/delete/:id", CakeController, :delete
     post "/create", CakeController, :create
-    put "/update/:id", CakeController, :update
+    put "/update/:slug", CakeController, :update
   end
 
   # BestConfectioner
@@ -44,7 +44,9 @@ defmodule SaborBrasileiroWeb.Router do
   # FAQ
   scope "/faq", SaborBrasileiroWeb do
     pipe_through :api
+
     # Solicitations
+    options "/solicitations/create", FAQController, :create_solicitation
     post "/solicitations/create", FAQController, :create_solicitation
 
     # Articles

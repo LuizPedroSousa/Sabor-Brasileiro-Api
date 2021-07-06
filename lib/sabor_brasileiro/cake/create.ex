@@ -1,7 +1,6 @@
 defmodule SaborBrasileiro.Cakes.Create do
   alias Ecto.{Multi}
-  alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, CakeIngredient, Repo}
-  import SaborBrasileiro, only: [preload_cake_data: 2]
+  alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, CakeIngredient, Repo, Cakes.Queries}
   import SaborBrasileiro.CakeCategories.Queries, only: [get_category_by_name: 1]
 
   def call(params) do
@@ -18,7 +17,7 @@ defmodule SaborBrasileiro.Cakes.Create do
         |> Multi.run(:create_ingredients, fn repo, %{create_cake: %Cake{id: id}} ->
           insert_ingredients(repo, id, params)
         end)
-        |> preload_cake_data(:create_cake)
+        |> Queries.preload_data(:create_cake)
         |> run_transaction
 
       {:error, reason} ->

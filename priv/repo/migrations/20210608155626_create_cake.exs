@@ -6,9 +6,9 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateCake do
       add :name, :string
       add :slug, :string
       add :price, :string
-      add :description, :string
+      add :description, :text
       add :stars, :integer
-      add :is_best, :boolean
+      add :kg, :string
       timestamps()
     end
 

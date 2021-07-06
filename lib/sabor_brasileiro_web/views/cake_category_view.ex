@@ -41,12 +41,14 @@ defmodule SaborBrasileiroWeb.CakeCategoryView do
          category: %CakeCategory{
            id: id,
            name: name,
+           slug: slug,
            inserted_at: inserted_at
          }
        }) do
     %{
       id: id,
       name: name,
+      slug: slug,
       inserted_at: inserted_at
     }
   end

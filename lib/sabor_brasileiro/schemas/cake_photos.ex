@@ -10,7 +10,6 @@ defmodule SaborBrasileiro.CakePhoto do
   schema "cake_photos" do
     field :url, :string
     belongs_to :cake, Cake
-
     timestamps()
   end
 
@@ -18,5 +17,12 @@ defmodule SaborBrasileiro.CakePhoto do
     %__MODULE__{}
     |> cast(params, @required_params)
     |> validate_required(@required_params)
+  end
+
+  def changeset_update(struct, params) do
+    struct
+    |> cast(params, @required_params)
+    |> validate_required(@required_params)
+    |> change
   end
 end

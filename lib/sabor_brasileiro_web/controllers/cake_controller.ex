@@ -33,11 +33,10 @@ defmodule SaborBrasileiroWeb.CakeController do
     end
   end
 
-  def update(conn, params) do
-    %{"id" => id} = params
-    body = params |> Map.delete("id")
+  def update(conn, _params) do
+    %{"slug" => slug} = conn.path_params
 
-    with {:ok, %Cake{} = cake} <- update_cake(id, body) do
+    with {:ok, %Cake{} = cake} <- update_cake(slug, conn.body_params) do
       conn
       |> put_status(:ok)
       |> render("update.json", cake: cake)

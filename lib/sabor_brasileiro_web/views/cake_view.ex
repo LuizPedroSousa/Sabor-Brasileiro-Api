@@ -51,7 +51,7 @@ defmodule SaborBrasileiroWeb.CakeView do
            description: description,
            price: price,
            slug: slug,
-           is_best: is_best,
+           kg: kg,
            stars: stars,
            cake_category: %CakeCategory{
              name: category_name
@@ -65,7 +65,7 @@ defmodule SaborBrasileiroWeb.CakeView do
       id: id,
       name: name,
       description: description,
-      isBest: is_best,
+      kg: kg,
       photos: format_photos(cake_photos),
       slug: slug,
       stars: stars,
