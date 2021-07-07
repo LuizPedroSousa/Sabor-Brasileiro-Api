@@ -1,12 +1,27 @@
 defmodule SaborBrasileiro.Cakes.Show do
   alias Ecto.{Multi}
-  alias SaborBrasileiro.{Repo}
-  import SaborBrasileiro.Cakes.Queries, only: [get_cake_by_slug: 2]
+  alias SaborBrasileiro.{Repo, Cake, Cakes.Queries}
 
   def call(slug) do
     Multi.new()
-    |> get_cake_by_slug(slug)
+    |> Multi.run(:get_cake, fn repo, _ ->
+      get_cake(repo, slug)
+      |> handle_cake
+    end)
+    |> Queries.preload_data(:get_cake)
     |> run_transaction
+  end
+
+  defp get_cake(repo, slug) do
+    Queries.get_with(%{"slug" => slug})
+    |> repo.one()
+  end
+
+  defp handle_cake(cake) do
+    case cake do
+      nil -> {:error, "Cake not found"}
+      %Cake{} = cake -> {:ok, cake}
+    end
   end
 
   defp run_transaction(multi) do

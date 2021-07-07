@@ -49,7 +49,7 @@ defmodule SaborBrasileiro do
   defdelegate get_cakes(query), to: CakeFind, as: :call
   defdelegate show_cake(slug), to: CakeShow, as: :call
   defdelegate update_cake(slug, params), to: CakeUpdate, as: :call
-  defdelegate delete_cake(ids), to: CakeDelete, as: :call
+  defdelegate delete_cake(id), to: CakeDelete, as: :call
 
   # Users
   defdelegate create_user(params), to: UserCreate, as: :call

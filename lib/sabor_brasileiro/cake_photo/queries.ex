@@ -24,7 +24,7 @@ defmodule SaborBrasileiro.CakePhotos.Queries do
 
   defp compose_query({"cake_id", cake_id}, query) do
     query
-    |> where([cp], cp.cake_id in ^[cake_id])
+    |> where([cp], cp.cake_id in ^cake_id)
   end
 
   defp compose_query(_unsupported_param, query) do

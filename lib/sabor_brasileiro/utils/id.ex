@@ -9,7 +9,7 @@ defmodule SaborBrasileiro.Utils.Id do
   end
 
   def validate_ids(ids) do
-    idList =
+    id_list =
       ids
       |> Enum.map(fn id ->
         case validate_id(id) do
@@ -18,7 +18,7 @@ defmodule SaborBrasileiro.Utils.Id do
         end
       end)
 
-    case Enum.member?(idList, {:error, "Invalid uuid"}) do
+    case Enum.member?(id_list, {:error, "Invalid uuid"}) do
       true -> {:error, "Invalid uuid"}
       false -> :ok
     end
