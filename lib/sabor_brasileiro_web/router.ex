@@ -22,6 +22,7 @@ defmodule SaborBrasileiroWeb.Router do
     delete "/delete/:id", CakeController, :delete
     post "/create", CakeController, :create
     put "/update/:slug", CakeController, :update
+    get "/show/:slug", CakeController, :show
   end
 
   # BestConfectioner

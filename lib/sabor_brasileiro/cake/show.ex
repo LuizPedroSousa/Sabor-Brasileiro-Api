@@ -13,7 +13,7 @@ defmodule SaborBrasileiro.Cakes.Show do
   end
 
   defp get_cake(repo, slug) do
-    Queries.get_with(%{"slug" => slug})
+    Queries.get_by_slug(slug)
     |> repo.one()
   end
 

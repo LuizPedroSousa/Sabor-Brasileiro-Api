@@ -15,6 +15,12 @@ defmodule SaborBrasileiro.Cakes.Queries do
     )
   end
 
+  defp base_query do
+    from(c in Cake,
+      order_by: [desc: c.inserted_at]
+    )
+  end
+
   defp build_query(query, criteria) do
     Enum.reduce(criteria, query, &compose_query/2)
   end
@@ -79,7 +85,7 @@ defmodule SaborBrasileiro.Cakes.Queries do
   end
 
   def get_by_slug(slug) do
-    from(c in Cake)
+    base_query()
     |> where([c], c.slug == ^slug)
   end
 end
