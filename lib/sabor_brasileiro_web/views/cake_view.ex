@@ -2,28 +2,56 @@ defmodule SaborBrasileiroWeb.CakeView do
   use SaborBrasileiroWeb, :view
   alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, CakeIngredient}
 
-  def render("index.json", %{cakes: cakes}) do
+  def render("find_cakes.json", %{cakes: cakes}) do
     %{
       ok: "Get all cakes with successfully",
       cakes: get_many_cakes(cakes)
     }
   end
 
-  def render("create.json", cake) do
+  def render("find_cake_categories.json", %{categories: categories}) do
+    %{
+      ok: "Get categories with successfully",
+      categories: get_many_categories(categories)
+    }
+  end
+
+  def render("create_cake_category.json", category) do
+    %{
+      ok: "category created with successfully",
+      category: get_category(category)
+    }
+  end
+
+  def render("update_cake_category.json", category) do
+    %{
+      ok: "category updated with successfully",
+      category: get_category(category)
+    }
+  end
+
+  def render("delete_cake_category.json", category) do
+    %{
+      ok: "category deleted with successfully",
+      category: get_category(category)
+    }
+  end
+
+  def render("create_cake.json", cake) do
     %{
       ok: "cake created with successfully",
       cake: get_cake(cake)
     }
   end
 
-  def render("show.json", cake) do
+  def render("show_cake.json", cake) do
     %{
       ok: "Show cake data with successfully",
       cake: get_cake(cake)
     }
   end
 
-  def render("update.json", cake) do
+  def render("update_cake.json", cake) do
     %{
       ok: "cake updated with successfully",
       cake: get_cake(cake)
@@ -37,7 +65,7 @@ defmodule SaborBrasileiroWeb.CakeView do
     }
   end
 
-  def render("delete.json", %{cakes: cakes}) do
+  def render("delete_cake.json", %{cakes: cakes}) do
     %{
       ok: "cakes deleteds with successfully",
       cakes: get_many_cakes(cakes)
@@ -73,7 +101,7 @@ defmodule SaborBrasileiroWeb.CakeView do
       name: name,
       description: description,
       kg: kg,
-      photos: format_photos(cake_photos),
+      photos: get_cake_photos(cake_photos),
       slug: slug,
       stars: stars,
       price: price,
@@ -83,10 +111,33 @@ defmodule SaborBrasileiroWeb.CakeView do
     }
   end
 
-  defp format_photos(photos) do
+  defp get_many_categories(categories) do
+    categories
+    |> Enum.map(fn category ->
+      get_category(%{category: category})
+    end)
+  end
+
+  defp get_category(%{
+         category: %CakeCategory{
+           id: id,
+           name: name,
+           slug: slug,
+           inserted_at: inserted_at
+         }
+       }) do
+    %{
+      id: id,
+      name: name,
+      slug: slug,
+      inserted_at: inserted_at
+    }
+  end
+
+  defp get_cake_photos(photos) do
     photos
-    |> Enum.map(fn %CakePhoto{id: id, url: url, cake_id: cake_id, inserted_at: inserted_at} ->
-      %{id: id, url: url, inserted_at: inserted_at, cake: cake_id}
+    |> Enum.map(fn %CakePhoto{} = cake_photo ->
+      cake_photo |> get_cake_photo()
     end)
   end
 

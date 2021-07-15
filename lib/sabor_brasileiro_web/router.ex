@@ -26,17 +26,17 @@ defmodule SaborBrasileiroWeb.Router do
   # Cake
   scope "/cakes", SaborBrasileiroWeb do
     pipe_through :api
-    get "/", CakeController, :index
-    delete "/delete/:id", CakeController, :delete
-    post "/create", CakeController, :create
-    put "/update/:slug", CakeController, :update
-    get "/show/:slug", CakeController, :show
+    get "/", CakeController, :find_cakes
+    delete "/delete/:id", CakeController, :delete_cake
+    post "/create", CakeController, :create_cake
+    put "/update/:slug", CakeController, :update_cake
+    get "/show/:slug", CakeController, :show_cake
 
     # Cake Categories
-    get "/categories", CakeCategoryController, :index
-    post "/categories/create", CakeCategoryController, :create
-    put "/categories/update/:id", CakeCategoryController, :update
-    delete "/categories/delete/:id", CakeCategoryController, :delete
+    get "/categories", CakeController, :find_cake_categories
+    post "/categories/create", CakeController, :create_cake_category
+    put "/categories/update/:id", CakeController, :update_cake_category
+    delete "/categories/delete/:id", CakeController, :delete_cake_category
 
     # Cake Photos
     put "/photos/update/:id", CakeController, :update_cake_photo
@@ -47,6 +47,7 @@ defmodule SaborBrasileiroWeb.Router do
     pipe_through :api
 
     # Solicitations
+   
     options "/solicitations/create", FAQController, :create_solicitation
     post "/solicitations/create", FAQController, :create_solicitation
 
