@@ -15,16 +15,6 @@ defmodule SaborBrasileiroWeb.Router do
     post "/create", UserController, :create
   end
 
-  # Cake
-  scope "/cakes", SaborBrasileiroWeb do
-    pipe_through :api
-    get "/", CakeController, :index
-    delete "/delete/:id", CakeController, :delete
-    post "/create", CakeController, :create
-    put "/update/:slug", CakeController, :update
-    get "/show/:slug", CakeController, :show
-  end
-
   # BestConfectioner
   scope "/best_confectioners", SaborBrasileiroWeb do
     pipe_through :api
@@ -33,13 +23,23 @@ defmodule SaborBrasileiroWeb.Router do
     delete "/delete/:id", BestConfectionerController, :delete
   end
 
-  # Cake Categories
-  scope "/cakes/categories", SaborBrasileiroWeb do
+  # Cake
+  scope "/cakes", SaborBrasileiroWeb do
     pipe_through :api
-    get "/", CakeCategoryController, :index
-    post "/create", CakeCategoryController, :create
-    put "/update/:id", CakeCategoryController, :update
-    delete "/delete/:id", CakeCategoryController, :delete
+    get "/", CakeController, :index
+    delete "/delete/:id", CakeController, :delete
+    post "/create", CakeController, :create
+    put "/update/:slug", CakeController, :update
+    get "/show/:slug", CakeController, :show
+
+    # Cake Categories
+    get "/categories", CakeCategoryController, :index
+    post "/categories/create", CakeCategoryController, :create
+    put "/categories/update/:id", CakeCategoryController, :update
+    delete "/categories/delete/:id", CakeCategoryController, :delete
+
+    # Cake Photos
+    put "/photos/update/:id", CakeController, :update_cake_photo
   end
 
   # FAQ

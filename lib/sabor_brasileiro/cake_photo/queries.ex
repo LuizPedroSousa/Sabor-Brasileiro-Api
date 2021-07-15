@@ -1,5 +1,6 @@
 defmodule SaborBrasileiro.CakePhotos.Queries do
   import Ecto.Query
+  alias Ecto.Multi
   alias SaborBrasileiro.{CakePhoto}
 
   def get_with(query) do
@@ -22,12 +23,23 @@ defmodule SaborBrasileiro.CakePhotos.Queries do
     |> where([cp, c], cp.id in ^ids)
   end
 
+  defp compose_query({"id", id}, query) do
+    query
+    |> where([cp, _c], cp.id == ^id)
+  end
+
   defp compose_query({"cake_id", cake_id}, query) do
     query
     |> where([cp], cp.cake_id in ^cake_id)
   end
 
-  defp compose_query(_unsupported_param, query) do
-    query
+  def preload_data(multi, key) do
+    multi
+    |> Multi.run(:preload_cake_photo_data, fn repo, map ->
+      {:ok,
+       repo.preload(map[key], [
+         :cake
+       ])}
+    end)
   end
 end

@@ -30,6 +30,13 @@ defmodule SaborBrasileiroWeb.CakeView do
     }
   end
 
+  def render("update_cake_photo.json", %{cake_photo: cake_photo}) do
+    %{
+      ok: "cake photo updated with successfully",
+      photo: get_cake_photo(cake_photo)
+    }
+  end
+
   def render("delete.json", %{cakes: cakes}) do
     %{
       ok: "cakes deleteds with successfully",
@@ -81,6 +88,10 @@ defmodule SaborBrasileiroWeb.CakeView do
     |> Enum.map(fn %CakePhoto{id: id, url: url, cake_id: cake_id, inserted_at: inserted_at} ->
       %{id: id, url: url, inserted_at: inserted_at, cake: cake_id}
     end)
+  end
+
+  defp get_cake_photo(%CakePhoto{id: id, url: url, cake_id: cake_id, inserted_at: inserted_at}) do
+    %{id: id, url: url, inserted_at: inserted_at, cake: cake_id}
   end
 
   defp format_ingredients(ingredients) do

@@ -1,6 +1,6 @@
 defmodule SaborBrasileiroWeb.CakeController do
   use SaborBrasileiroWeb, :controller
-  alias SaborBrasileiro.{Cake}
+  alias SaborBrasileiro.{Cake, CakePhoto}
 
   import SaborBrasileiro,
     only: [create_cake: 1, get_cakes: 1, delete_cake: 1, show_cake: 1, update_cake: 2]
@@ -40,6 +40,17 @@ defmodule SaborBrasileiroWeb.CakeController do
       conn
       |> put_status(:ok)
       |> render("update.json", cake: cake)
+    end
+  end
+
+  def update_cake_photo(conn, _params) do
+    %{"id" => id} = conn.path_params
+
+    with {:ok, %CakePhoto{} = cake_photo} <-
+           SaborBrasileiro.update_cake_photo(id, conn.body_params) do
+      conn
+      |> put_status(:ok)
+      |> render("update_cake_photo.json", cake_photo: cake_photo)
     end
   end
 
