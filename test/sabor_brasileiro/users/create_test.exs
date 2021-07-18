@@ -59,6 +59,23 @@ defmodule SaborBrasileiro.Users.CreateTest do
       assert expected_response == errors_on(changeset)
     end
 
+    test "when user avatar url are blank, returns an error" do
+      params = %{
+        "name" => Person.PtBr.first_name(),
+        "surname" => Person.PtBr.last_name(),
+        "nickname" => Internet.user_name(),
+        "email" => Internet.email(),
+        "password" => "12345678",
+        "avatar" => %{}
+      }
+
+      {:error, changeset} = Create.call(params)
+
+      expected_response = %{avatar: ["Avatar url can't be blank"]}
+
+      assert expected_response == errors_on(changeset)
+    end
+
     test "when user password is less than six characters, returns an error" do
       params = %{
         name: Person.PtBr.first_name(),
