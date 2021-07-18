@@ -21,6 +21,7 @@ defmodule SaborBrasileiroWeb.UserView do
          name: name,
          surname: surname,
          email: email,
+         nickname: nickname,
          user_avatar: %UserAvatar{
            id: avatar_id,
            url: url,
@@ -34,6 +35,7 @@ defmodule SaborBrasileiroWeb.UserView do
       name: name,
       surname: surname,
       email: email,
+      nickname: nickname,
       avatar: %{
         id: avatar_id,
         url: url,

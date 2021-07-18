@@ -5,10 +5,11 @@ defmodule SaborBrasileiro.User do
   alias SaborBrasileiro.{UserAvatar, UserRole, BestConfectioner}
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  @required_params [:name, :surname, :email, :password]
+  @required_params [:name, :nickname, :surname, :email, :password]
 
   schema "users" do
     field :name, :string
+    field :nickname, :string
     field :surname, :string
     field :email, :string
     field :password, :string, virtual: true
@@ -24,6 +25,7 @@ defmodule SaborBrasileiro.User do
     |> cast(params, @required_params)
     |> validate_required(@required_params)
     |> validate_length(:password, min: 6)
+    |> validate_length(:nickname, min: 4)
     |> validate_format(:email, ~r/(\w+)@([\w.]+)/)
     |> unique_constraint([:email])
     |> unique_constraint([:nickname])
@@ -31,7 +33,7 @@ defmodule SaborBrasileiro.User do
   end
 
   def changeset_auth(params) do
-    required_params_auth = [:email, :password]
+    required_params_auth = [:email, :nickname, :password]
 
     %__MODULE__{}
     |> cast(params, required_params_auth)
@@ -39,7 +41,6 @@ defmodule SaborBrasileiro.User do
     |> validate_length(:password, min: 6)
     |> validate_format(:email, ~r/(\w+)@([\w.]+)/)
   end
-
 
   defp put_password_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do
     changeset |> change(Pbkdf2.add_hash(password))

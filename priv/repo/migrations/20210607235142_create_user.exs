@@ -4,6 +4,7 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateUser do
   def change do
     create table :users do
       add :name, :string
+      add :nickname, :string
       add :surname, :string
       add :email, :string
       add :password_hash, :string
@@ -11,5 +12,6 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateUser do
     end
 
     create unique_index(:users, [:email])
+    create unique_index(:users, [:nickname])
   end
 end
