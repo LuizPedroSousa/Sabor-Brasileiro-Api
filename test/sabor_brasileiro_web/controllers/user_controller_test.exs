@@ -63,13 +63,33 @@ defmodule SaborBrasileiroWeb.UserControllerTest do
       assert expected_response == response
     end
 
+    test "when user avatar url are blank, returns an error", %{conn: conn} do
+      params = %{
+        "name" => Person.first_name(),
+        "surname" => Person.last_name(),
+        "email" => Internet.email(),
+        "nickname" => Internet.user_name(),
+        "password" => "121231234",
+        "avatar" => %{}
+      }
+
+      response =
+        conn
+        |> post(Routes.user_path(conn, :create_user, params))
+        |> json_response(:bad_request)
+
+      expected_response = %{"errors" => %{"avatar" => ["can't be blank"]}}
+
+      assert expected_response == response
+    end
+
     test "when user password is less than six characters, returns an error", %{conn: conn} do
       params = %{
         name: Person.PtBr.first_name(),
         surname: Person.PtBr.last_name(),
         email: Internet.email(),
         nickname: Internet.user_name(),
-        password: "12345",
+        password: "12345"
       }
 
       response =
