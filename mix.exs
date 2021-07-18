@@ -10,7 +10,14 @@ defmodule SaborBrasileiro.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -19,7 +26,7 @@ defmodule SaborBrasileiro.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {SaborBrasileiro.Application, [:corsica]},
+      mod: {SaborBrasileiro.Application, [:corsica, :bamboo, :bamboo_smtp]},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -34,6 +41,7 @@ defmodule SaborBrasileiro.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.5.8"},
+      {:phoenix_html, "~> 2.11"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
@@ -46,7 +54,12 @@ defmodule SaborBrasileiro.MixProject do
       {:pbkdf2_elixir, "~> 1.4"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:corsica, "~> 1.0"},
-      {:slugger, "~> 0.3"}
+      {:slugger, "~> 0.3"},
+      {:bamboo, "~> 2.1.0"},
+      {:bamboo_smtp, "~> 4.0.1"},
+      {:bamboo_phoenix, "~> 1.0.0"},
+      {:excoveralls, "~> 0.10", only: :test},
+      {:faker, "~> 0.16", only: :test}
     ]
   end
 
@@ -61,7 +74,7 @@ defmodule SaborBrasileiro.MixProject do
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.drop --quiet", "ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
   end
 end
