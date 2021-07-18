@@ -2,7 +2,6 @@ defmodule SaborBrasileiro.BestConfectioners.Queries do
   import Ecto.Query
   alias Ecto.{Multi}
   alias SaborBrasileiro.{BestConfectioner, Repo}
-  import SaborBrasileiro, only: [preload_best_confectioner: 2, preload_user_data: 2]
 
   # Many
   def get_all_best_confectioners() do
@@ -26,7 +25,7 @@ defmodule SaborBrasileiro.BestConfectioners.Queries do
 
       {:ok, confectioners}
     end)
-    |> preload_best_confectioner(:get_all_confectioners)
+    |> preload_data(:get_all_confectioners)
   end
 
   def get_best_confectioners_by_name(multi, name) do
@@ -44,7 +43,7 @@ defmodule SaborBrasileiro.BestConfectioners.Queries do
 
       {:ok, confectioners}
     end)
-    |> preload_best_confectioner(:get_confectioner)
+    |> preload_data(:get_confectioner)
   end
 
   def get_best_confectioner_by_id(multi, id) do
@@ -56,6 +55,16 @@ defmodule SaborBrasileiro.BestConfectioners.Queries do
         nil -> {:error, "Best confectioner not exists"}
         %BestConfectioner{} = best_confectioner -> {:ok, best_confectioner}
       end
+    end)
+  end
+
+  def preload_data(multi, key) do
+    multi
+    |> Multi.run(:preload_best_confectioner_data, fn repo, map ->
+      {:ok,
+       repo.preload(map[key],
+         user: :user_avatar
+       )}
     end)
   end
 end

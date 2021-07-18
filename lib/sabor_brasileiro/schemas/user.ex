@@ -30,6 +30,17 @@ defmodule SaborBrasileiro.User do
     |> put_password_hash
   end
 
+  def changeset_auth(params) do
+    required_params_auth = [:email, :password]
+
+    %__MODULE__{}
+    |> cast(params, required_params_auth)
+    |> validate_required(required_params_auth)
+    |> validate_length(:password, min: 6)
+    |> validate_format(:email, ~r/(\w+)@([\w.]+)/)
+  end
+
+
   defp put_password_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do
     changeset |> change(Pbkdf2.add_hash(password))
   end

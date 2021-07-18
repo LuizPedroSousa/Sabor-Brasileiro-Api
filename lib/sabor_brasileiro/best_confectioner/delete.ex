@@ -1,19 +1,17 @@
 defmodule SaborBrasileiro.BestConfectioners.Delete do
   alias Ecto.{Multi}
-  alias SaborBrasileiro.{Repo}
+  alias SaborBrasileiro.{Repo, BestConfectioners.Queries}
   import SaborBrasileiro.Utils.Id, only: [validate_id: 1]
-  import SaborBrasileiro, only: [preload_best_confectioner: 2]
-  import SaborBrasileiro.BestConfectioners.Queries, only: [get_best_confectioner_by_id: 2]
 
   def call(id) do
     case validate_id(id) do
       :ok ->
         Multi.new()
-        |> get_best_confectioner_by_id(id)
+        |> Queries.get_best_confectioner_by_id(id)
         |> Multi.run(:delete_confectioner, fn repo, %{get_confectioner: best_confectioner} ->
           repo.delete(best_confectioner)
         end)
-        |> preload_best_confectioner(:delete_confectioner)
+        |> Queries.preload_data(:delete_confectioner)
         |> run_transaction
 
       error ->
