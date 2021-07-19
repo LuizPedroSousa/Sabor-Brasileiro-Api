@@ -12,6 +12,12 @@ defmodule SaborBrasileiroWeb.ErrorView do
     %{errors: translate_errors(changeset)}
   end
 
+  def render("400.json", %{result: %{} = details}) do
+    %{
+      errors: details
+    }
+  end
+
   def render("400.json", %{result: details}) do
     %{
       error: %{

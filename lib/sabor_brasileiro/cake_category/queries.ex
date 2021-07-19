@@ -33,6 +33,10 @@ defmodule SaborBrasileiro.CakeCategories.Queries do
     where(query, [cc], ilike(cc.name, ^name_like))
   end
 
+  defp compose_query({"_name", name}, query) do
+    where(query, [cc], cc.name == ^name)
+  end
+
   defp compose_query({"slug", slug}, query) do
     where(query, [cc], cc.slug == ^slug)
   end
