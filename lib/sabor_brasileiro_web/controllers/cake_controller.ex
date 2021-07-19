@@ -86,11 +86,11 @@ defmodule SaborBrasileiroWeb.CakeController do
     end
   end
 
-  def delete_cake_category(conn, %{"id" => id}) do
-    with {:ok, %CakeCategory{} = category} <- SaborBrasileiro.delete_category(id) do
+  def delete_cake_categories(conn, %{"id" => id}) do
+    with {:ok, categories} <- SaborBrasileiro.delete_categories(id) do
       conn
       |> put_status(:ok)
-      |> render("delete_cake_category.json", category: category)
+      |> render("delete_cake_categories.json", categories: categories)
     end
   end
 end

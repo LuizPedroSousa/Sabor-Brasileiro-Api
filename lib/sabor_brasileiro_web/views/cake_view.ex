@@ -30,10 +30,10 @@ defmodule SaborBrasileiroWeb.CakeView do
     }
   end
 
-  def render("delete_cake_category.json", category) do
+  def render("delete_cake_categories.json", %{categories: categories}) do
     %{
       ok: "category deleted with successfully",
-      category: get_category(category)
+      category: get_many_categories(categories)
     }
   end
 

@@ -1,62 +1,57 @@
 defmodule SaborBrasileiro.CakeCategories.Queries do
   import Ecto.Query
-  alias Ecto.{UUID}
-  alias SaborBrasileiro.{CakeCategory, Repo}
+  alias Ecto.{Multi}
+  alias SaborBrasileiro.{CakeCategory}
 
-  # One
-  def get_category_by_name(name) do
-    like_name = "%#{name}%"
-
-    from(c in CakeCategory,
-      where: ilike(c.name, ^like_name),
-      order_by: [desc: c.inserted_at]
-    )
-    |> Repo.one()
-    |> case do
-      nil -> {:error, "Category not exists"}
-      %CakeCategory{} = category -> {:ok, category}
-    end
+  def get_with(query) do
+    base_query()
+    |> build_query(query)
   end
 
-  def get_category_by_id(id) do
-    case UUID.cast(id) do
-      :error ->
-        {:error, "Invalid uuid"}
-
-      {:ok, _} ->
-        from(c in CakeCategory,
-          where: c.id == ^id
-        )
-        |> Repo.one()
-        |> case do
-          %CakeCategory{} = category -> {:ok, category}
-          _ -> {:error, "Category not exists"}
-        end
-    end
+  defp base_query() do
+    from(cc in CakeCategory)
   end
 
-  # Many
-  def get_categories_by_name(name) do
-    like_name = "%#{name}%"
-
-    from(c in CakeCategory,
-      where: ilike(c.name, ^like_name),
-      order_by: [desc: c.inserted_at]
-    )
-    |> Repo.all()
-    |> case do
-      nil -> {:error, "Category not exists"}
-      categories -> {:ok, categories}
-    end
+  defp build_query(query, criteria) do
+    Enum.reduce(criteria, query, &compose_query/2)
   end
 
-  def get_all_categories() do
-    categories =
-      from(c in CakeCategory,
-        order_by: [desc: c.inserted_at]
-      )
-      |> Repo.all()
+  defp compose_query({"order", "desc"}, query) do
+    order_by(query, [cc], desc: [cc.inserted_at])
+  end
 
-    {:ok, categories}
+  defp compose_query({"order", "asc"}, query) do
+    order_by(query, [cc], asc: [cc.inserted_at])
+  end
+
+  defp compose_query({"_limit", limit_c}, query) do
+    limit(query, ^limit_c)
+  end
+
+  defp compose_query({"name", name}, query) do
+    name_like = "%#{name}%"
+    where(query, [cc], ilike(cc.name, ^name_like))
+  end
+
+  defp compose_query({"id", id}, query) do
+    where(query, [cc], cc.id == ^id)
+  end
+
+  defp compose_query({"ids", ids}, query) do
+    where(query, [cc], cc.id in ^ids)
+  end
+
+  defp compose_query(_unsupported_param, query) do
+    query
+  end
+
+  def preload_data(multi, key) do
+    multi
+    |> Multi.run(:preload_cake_category_data, fn repo, map ->
+      {:ok,
+       repo.preload(map[key], [
+         :cake
+       ])}
+    end)
   end
 end
