@@ -1,5 +1,5 @@
 defmodule SaborBrasileiro.Users.CreateTest do
-  use SaborBrasileiro.DataCase
+  use SaborBrasileiro.DataCase, async: true
   alias SaborBrasileiro.{User, Users.Create, Repo, UserAvatar}
   alias Faker.{Person, Internet, Avatar}
 

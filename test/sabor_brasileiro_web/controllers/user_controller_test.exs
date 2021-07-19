@@ -1,5 +1,5 @@
 defmodule SaborBrasileiroWeb.UserControllerTest do
-  use SaborBrasileiroWeb.ConnCase
+  use SaborBrasileiroWeb.ConnCase, async: true
   alias Faker.{Person, Internet, Avatar}
   alias SaborBrasileiro.{Users}
 
