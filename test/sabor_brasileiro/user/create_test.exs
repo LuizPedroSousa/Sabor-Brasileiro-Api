@@ -1,9 +1,9 @@
 defmodule SaborBrasileiro.Users.CreateTest do
   use SaborBrasileiro.DataCase, async: true
-  alias SaborBrasileiro.{User, Users.Create, Repo, UserAvatar}
+  alias SaborBrasileiro.{User, Repo, UserAvatar}
   alias Faker.{Person, Internet, Avatar}
 
-  describe "call/1" do
+  describe "create_user/1" do
     test "when all user params are valid, return an user" do
       params = %{
         "name" => Person.PtBr.first_name(),
@@ -16,7 +16,8 @@ defmodule SaborBrasileiro.Users.CreateTest do
         }
       }
 
-      {:ok, %User{id: user_id, password_hash: password_hash}} = Create.call(params)
+      {:ok, %User{id: user_id, password_hash: password_hash}} =
+        SaborBrasileiro.create_user(params)
 
       user = Repo.get(User, user_id) |> Repo.preload([:user_avatar])
 
@@ -46,7 +47,7 @@ defmodule SaborBrasileiro.Users.CreateTest do
     test "when all user params are blank, returns an error" do
       params = %{}
 
-      {:error, changeset} = Create.call(params)
+      {:error, changeset} = SaborBrasileiro.create_user(params)
 
       expected_response = %{
         email: ["can't be blank"],
@@ -69,7 +70,7 @@ defmodule SaborBrasileiro.Users.CreateTest do
         "avatar" => %{}
       }
 
-      {:error, changeset} = Create.call(params)
+      {:error, changeset} = SaborBrasileiro.create_user(params)
 
       expected_response = %{avatar: ["Avatar url can't be blank"]}
 
@@ -85,7 +86,7 @@ defmodule SaborBrasileiro.Users.CreateTest do
         password: "12345"
       }
 
-      {:error, changeset} = Create.call(params)
+      {:error, changeset} = SaborBrasileiro.create_user(params)
 
       expected_response = %{password: ["should be at least 6 character(s)"]}
 
@@ -101,7 +102,7 @@ defmodule SaborBrasileiro.Users.CreateTest do
         nickname: "123"
       }
 
-      {:error, changeset} = Create.call(params)
+      {:error, changeset} = SaborBrasileiro.create_user(params)
 
       expected_response = %{nickname: ["should be at least 4 character(s)"]}
 
@@ -117,7 +118,7 @@ defmodule SaborBrasileiro.Users.CreateTest do
         password: "123456"
       }
 
-      {:error, changeset} = Create.call(params)
+      {:error, changeset} = SaborBrasileiro.create_user(params)
 
       expected_response = %{email: ["has invalid format"]}
 
@@ -136,9 +137,9 @@ defmodule SaborBrasileiro.Users.CreateTest do
         }
       }
 
-      Create.call(params)
+      SaborBrasileiro.create_user(params)
 
-      {:error, changeset} = Create.call(params)
+      {:error, changeset} = SaborBrasileiro.create_user(params)
       expected_response = %{email: ["has already been taken"]}
       assert expected_response == errors_on(changeset)
     end
@@ -155,14 +156,14 @@ defmodule SaborBrasileiro.Users.CreateTest do
         }
       }
 
-      Create.call(params)
+      SaborBrasileiro.create_user(params)
 
       # Delete old email and put new, to just catch nickname error
       new_params =
         Map.delete(params, "email")
         |> Map.put("email", Internet.email())
 
-      {:error, changeset} = Create.call(new_params)
+      {:error, changeset} = SaborBrasileiro.create_user(new_params)
       expected_response = %{nickname: ["has already been taken"]}
       assert expected_response == errors_on(changeset)
     end
