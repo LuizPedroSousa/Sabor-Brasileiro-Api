@@ -12,7 +12,8 @@ defmodule SaborBrasileiroWeb.Router do
   # User
   scope "/users", SaborBrasileiroWeb do
     pipe_through :api
-    post "/create", UserController, :create
+    post "/create", UserController, :create_user
+    post "/auth", UserController, :authenticate_user
   end
 
   # BestConfectioner
@@ -36,7 +37,7 @@ defmodule SaborBrasileiroWeb.Router do
     get "/categories", CakeController, :find_cake_categories
     post "/categories/create", CakeController, :create_cake_category
     put "/categories/update/:id", CakeController, :update_cake_category
-    delete "/categories/delete/:id", CakeController, :delete_cake_category
+    delete "/categories/delete/:id", CakeController, :delete_cake_categories
 
     # Cake Photos
     put "/photos/update/:id", CakeController, :update_cake_photo
@@ -47,7 +48,7 @@ defmodule SaborBrasileiroWeb.Router do
     pipe_through :api
 
     # Solicitations
-   
+
     options "/solicitations/create", FAQController, :create_solicitation
     post "/solicitations/create", FAQController, :create_solicitation
 
