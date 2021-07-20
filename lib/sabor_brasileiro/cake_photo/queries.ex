@@ -8,14 +8,24 @@ defmodule SaborBrasileiro.CakePhotos.Queries do
     |> build_query(query)
   end
 
-  defp base_query do
-    from(cp in CakePhoto,
-      order_by: [desc: cp.inserted_at]
-    )
+  defp base_query() do
+    from(cp in CakePhoto)
   end
 
   defp build_query(query, criteria) do
     Enum.reduce(criteria, query, &compose_query/2)
+  end
+
+  defp compose_query({"order", "desc"}, query) do
+    order_by(query, [cp], desc: [cp.inserted_at])
+  end
+
+  defp compose_query({"order", "asc"}, query) do
+    order_by(query, [cp], asc: [cp.inserted_at])
+  end
+
+  defp compose_query({"_limit", limit_c}, query) do
+    limit(query, ^limit_c)
   end
 
   defp compose_query({"ids", ids}, query) do
