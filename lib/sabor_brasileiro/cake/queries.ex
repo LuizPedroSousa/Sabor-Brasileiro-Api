@@ -4,25 +4,28 @@ defmodule SaborBrasileiro.Cakes.Queries do
   alias SaborBrasileiro.{Cake}
 
   def get_with(query) do
-    base_query(query)
+    base_query()
     |> build_query(query)
   end
 
-  defp base_query(query) do
-    from(c in Cake,
-      order_by: [desc: c.inserted_at],
-      limit: ^query["_limit"]
-    )
-  end
-
-  defp base_query do
-    from(c in Cake,
-      order_by: [desc: c.inserted_at]
-    )
+  defp base_query() do
+    from(c in Cake)
   end
 
   defp build_query(query, criteria) do
     Enum.reduce(criteria, query, &compose_query/2)
+  end
+
+  defp compose_query({"order", "desc"}, query) do
+    order_by(query, [cc], desc: [cc.inserted_at])
+  end
+
+  defp compose_query({"order", "asc"}, query) do
+    order_by(query, [cc], asc: [cc.inserted_at])
+  end
+
+  defp compose_query({"_limit", limit_c}, query) do
+    limit(query, ^limit_c)
   end
 
   defp compose_query({"name", name}, query) do
@@ -40,6 +43,10 @@ defmodule SaborBrasileiro.Cakes.Queries do
 
   defp compose_query({"ids", ids}, query) do
     where(query, [c], c.id in ^ids)
+  end
+
+  defp compose_query({"slug", slug}, query) do
+    where(query, [c], c.slug == ^slug)
   end
 
   defp compose_query({"price", price}, query) do
@@ -67,25 +74,5 @@ defmodule SaborBrasileiro.Cakes.Queries do
          :cake_category
        ])}
     end)
-  end
-
-  def get_cake_by_id(multi, id) do
-    multi
-    |> Multi.run(:get_cake, fn repo, _ ->
-      from(c in Cake,
-        where: c.id == ^id
-      )
-      |> repo.one
-      |> case do
-        nil -> {:error, "Cake not found"}
-        %Cake{} = cake -> {:ok, cake}
-      end
-    end)
-    |> preload_data(:get_cake)
-  end
-
-  def get_by_slug(slug) do
-    base_query()
-    |> where([c], c.slug == ^slug)
   end
 end
