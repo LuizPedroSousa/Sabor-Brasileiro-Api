@@ -10,7 +10,6 @@ use Mix.Config
 config :sabor_brasileiro,
   ecto_repos: [SaborBrasileiro.Repo]
 
-
 config :sabor_brasileiro, SaborBrasileiro.Repo,
   migration_primary_key: [type: :binary_id],
   migration_foreign_key: [type: :binary_id]

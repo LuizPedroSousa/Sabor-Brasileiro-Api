@@ -33,13 +33,13 @@ defmodule SaborBrasileiro.User do
   end
 
   def changeset_auth(params) do
-    required_params_auth = [:email, :nickname, :password]
+    required_params_auth = [:nickname, :password]
 
     %__MODULE__{}
     |> cast(params, required_params_auth)
     |> validate_required(required_params_auth)
     |> validate_length(:password, min: 6)
-    |> validate_format(:email, ~r/(\w+)@([\w.]+)/)
+    |> validate_length(:nickname, min: 4)
   end
 
   defp put_password_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do

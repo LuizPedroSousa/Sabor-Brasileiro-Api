@@ -1,8 +1,8 @@
 defmodule SaborBrasileiroWeb.UserController do
   use SaborBrasileiroWeb, :controller
-  alias SaborBrasileiro.{User}
+  alias SaborBrasileiro.{User, TemporaryUserPin}
 
-  action_fallback SaborBrasileiroWeb.FallbackController
+  action_fallback(SaborBrasileiroWeb.FallbackController)
 
   def create_user(conn, params) do
     with {:ok, %User{} = user} <- SaborBrasileiro.create_user(params) do
@@ -12,11 +12,15 @@ defmodule SaborBrasileiroWeb.UserController do
     end
   end
 
-  def authenticate_user(conn, params) do
-    with {:ok, %User{} = user} <- SaborBrasileiro.authenticate_user(params) do
-      conn
-      |> put_status(:ok)
-      |> render("authenticate_user.json", user: user)
+  def auth_user_credentials(conn, params) do
+    with {:ok, %User{} = user, %TemporaryUserPin{} = pin} <-
+           SaborBrasileiro.auth_user_credentials(params) do
+      with :ok <- SaborBrasileiro.Email.send_auth_pin(user, pin, conn) do
+        conn
+        |> put_status(:ok)
+        |> render("send_authentication_email.json", user: user)
+      end
     end
   end
+
 end

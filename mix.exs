@@ -59,7 +59,9 @@ defmodule SaborBrasileiro.MixProject do
       {:bamboo_smtp, "~> 4.0.1"},
       {:bamboo_phoenix, "~> 1.0.0"},
       {:excoveralls, "~> 0.10", only: :test},
-      {:faker, "~> 0.16", only: :test}
+      {:faker, "~> 0.16", only: :test},
+      {:browser, "~> 0.4.4"},
+      {:timex, "~> 3.0"}
     ]
   end
 

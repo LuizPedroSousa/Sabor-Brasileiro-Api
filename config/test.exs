@@ -6,10 +6,11 @@ use Mix.Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :sabor_brasileiro, SaborBrasileiro.Repo,
-  username: System.get_env("PGUSER"),
-  password: System.get_env("PGPASSWORD"),
+  username: "postgres",
+  password: "lp2316695436",
   database: "sabor_brasileiro_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: System.get_env("PGHOST"),
+  hostname: "127.0.0.1",
+  port: "5432",
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,

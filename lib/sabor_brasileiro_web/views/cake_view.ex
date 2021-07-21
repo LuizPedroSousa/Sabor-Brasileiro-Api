@@ -39,7 +39,7 @@ defmodule SaborBrasileiroWeb.CakeView do
 
   def render("create_cake.json", cake) do
     %{
-      ok: "cake created with successfully",
+      ok: "Cake created with successfully",
       cake: get_cake(cake)
     }
   end

@@ -13,7 +13,7 @@ defmodule SaborBrasileiroWeb.Router do
   scope "/users", SaborBrasileiroWeb do
     pipe_through :api
     post "/create", UserController, :create_user
-    post "/auth", UserController, :authenticate_user
+    post "/auth", UserController, :auth_user_credentials
   end
 
   # BestConfectioner
@@ -62,6 +62,10 @@ defmodule SaborBrasileiroWeb.Router do
     post "/articles/categories/create", FAQController, :create_article_category
     delete "/articles/categories/delete/:ids", FAQController, :delete_article_categories
     get "/articles/categories/show/:slug", FAQController, :show_article_category
+  end
+
+  if Mix.env() in [:dev] do
+    forward "/sent_emails", Bamboo.SentEmailViewerPlug
   end
 
   if Mix.env() in [:dev, :test] do
