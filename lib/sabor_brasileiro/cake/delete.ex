@@ -1,7 +1,6 @@
 defmodule SaborBrasileiro.Cakes.Delete do
   alias Ecto.{Multi}
   alias SaborBrasileiro.{Repo, Cakes.Queries, CakePhotos}
-  import Ecto.Query
 
   def call(ids) do
     id_list =

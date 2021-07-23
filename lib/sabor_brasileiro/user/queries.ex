@@ -54,8 +54,7 @@ defmodule SaborBrasileiro.Users.Queries do
     |> Multi.run(:preload_user_data, fn repo, map ->
       {:ok,
        repo.preload(map[key], [
-         :user_avatar,
-         :user_role
+         :user_avatar
        ])}
     end)
   end

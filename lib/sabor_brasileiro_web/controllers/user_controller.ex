@@ -2,6 +2,9 @@ defmodule SaborBrasileiroWeb.UserController do
   use SaborBrasileiroWeb, :controller
   alias SaborBrasileiro.{User, TemporaryUserPin}
 
+  alias SaborBrasileiro.Users.Auth.ValidateUserPin.Response,
+    as: ValidateUserPinResponse
+
   action_fallback(SaborBrasileiroWeb.FallbackController)
 
   def create_user(conn, params) do
@@ -23,4 +26,11 @@ defmodule SaborBrasileiroWeb.UserController do
     end
   end
 
+  def auth_user_pin(conn, params) do
+    with {:ok, %ValidateUserPinResponse{} = response} <- SaborBrasileiro.validate_user_pin(params) do
+      conn
+      |> put_status(:ok)
+      |> render("authenticate_user.json", response: response)
+    end
+  end
 end

@@ -8,6 +8,9 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateUser do
       add :surname, :string
       add :email, :string
       add :password_hash, :string
+      add :isUser, :boolean
+      add :isConfectioner, :boolean
+      add :isAdmin, :boolean
       timestamps()
     end
 

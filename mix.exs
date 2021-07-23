@@ -61,7 +61,8 @@ defmodule SaborBrasileiro.MixProject do
       {:excoveralls, "~> 0.10", only: :test},
       {:faker, "~> 0.16", only: :test},
       {:browser, "~> 0.4.4"},
-      {:timex, "~> 3.0"}
+      {:timex, "~> 3.0"},
+      {:joken, "~> 2.0"}
     ]
   end
 

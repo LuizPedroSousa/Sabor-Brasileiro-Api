@@ -6,23 +6,19 @@ defmodule SaborBrasileiro.Cakes.Show do
     Multi.new()
     |> Multi.run(:get_cake, fn repo, _ ->
       get_cake(repo, slug)
-      |> handle_cake
     end)
     |> Queries.preload_data(:get_cake)
     |> run_transaction
   end
 
   defp get_cake(repo, slug) do
-    Queries.get_by_slug(slug)
+    Queries.get_with(%{"slug" => slug})
     |> repo.one()
+    |> handle_cake
   end
 
-  defp handle_cake(cake) do
-    case cake do
-      nil -> {:error, "Cake not found"}
-      %Cake{} = cake -> {:ok, cake}
-    end
-  end
+  defp handle_cake(%Cake{} = cake), do: {:ok, cake}
+  defp handle_cake(_), do: {:error, "Cake not found"}
 
   defp run_transaction(multi) do
     case Repo.transaction(multi) do

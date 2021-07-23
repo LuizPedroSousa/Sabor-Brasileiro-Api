@@ -2,11 +2,11 @@ use Mix.Config
 
 # Configure your database
 config :sabor_brasileiro, SaborBrasileiro.Repo,
-  username: "postgres",
-  password: "lp2316695436",
+  username: System.get_env("DB_USERNAME"),
+  password: System.get_env("DB_PASSWORD"),
   database: "sabor_brasileiro_dev",
-  hostname: "127.0.0.1",
-  port: "5432",
+  hostname: System.get_env("DB_HOST"),
+  port: System.get_env("DB_PORT"),
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -19,13 +19,13 @@ config :sabor_brasileiro, SaborBrasileiro.Repo,
 
 config :sabor_brasileiro, SaborBrasileiro.Mailer,
   adapter: Bamboo.SMTPAdapter,
-  server: "smtp.mailgun.org",
-  hostname: "smtp.mailgun.org",
-  port: 587,
+  server: System.get_env("SMTP_SERVER"),
+  hostname: System.get_env("SMTP_HOSTNAME"),
+  port: System.get_env("SMTP_PORT"),
   # or {:system, "SMTP_USERNAME"}
-  username: "postmaster@sandboxac3cb1d1deda4fae9123202e6f9d1072.mailgun.org",
+  username: System.get_env("SMTP_USERNAME"),
   # or {:system, "SMTP_PASSWORD"}
-  password: "14eb448ea3632d249b34444f05944f9e-602cc1bf-983d4105",
+  password: System.get_env("SMTP_PASSWORD"),
   # can be `:always` or `:never`
   tls: :always,
   # or {:system, "ALLOWED_TLS_VERSIONS"} w/ comma seprated values (e.g. "tlsv1.1,tlsv1.2")
@@ -50,6 +50,24 @@ config :sabor_brasileiro, SaborBrasileiro.Mailer,
   auth: :if_available
 
 config :sabor_brasileiro, SaborBrasileiro.Mailer, adapter: Bamboo.LocalAdapter
+
+config :sabor_brasileiro,
+  access_token_secret:
+    System.get_env("ACCESS_TOKEN_SECRET") ||
+      raise("""
+      environment variable ACCESS_TOKEN_SECRET is missing.
+      type some random characters to create one
+      """),
+  refresh_token_secret:
+    System.get_env("REFRESH_TOKEN_SECRET") ||
+      raise("""
+      environment variable REFRESH_TOKEN_SECRET is missing.
+      type some random characters to create one
+      """)
+
+config :joken,
+  access_token_secret: System.fetch_env!("ACCESS_TOKEN_SECRET"),
+  refresh_token_secret: System.fetch_env!("REFRESH_TOKEN_SECRET")
 
 config :sabor_brasileiro, SaborBrasileiroWeb.Endpoint,
   http: [port: 4000],

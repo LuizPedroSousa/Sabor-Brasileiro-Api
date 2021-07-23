@@ -1,7 +1,6 @@
-defmodule SaborBrasileiro.TemporaryUserPin.Queries do
+defmodule SaborBrasileiro.RefreshTokens.Queries do
   import Ecto.Query
-  alias Ecto.{Multi}
-  alias SaborBrasileiro.{TemporaryUserPin}
+  alias SaborBrasileiro.{RefreshToken}
 
   def get_with(query) do
     base_query()
@@ -9,7 +8,7 @@ defmodule SaborBrasileiro.TemporaryUserPin.Queries do
   end
 
   defp base_query() do
-    from(t in TemporaryUserPin)
+    from(r in RefreshToken)
   end
 
   defp build_query(query, criteria) do
@@ -28,11 +27,7 @@ defmodule SaborBrasileiro.TemporaryUserPin.Queries do
     limit(query, ^limit_c)
   end
 
-  defp compose_query({"user_id", user_id}, query) do
-    where(query, [t], t.user_id == ^user_id)
-  end
-
-  defp compose_query({"pin", pin}, query) do
-    where(query, [t], t.pin == ^pin)
+  defp compose_query({"id", id}, query) do
+    where(query, [r], r.id == ^id)
   end
 end

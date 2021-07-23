@@ -1,15 +1,12 @@
 defmodule SaborBrasileiro.Users.Create do
   alias Ecto.{Multi}
-  alias SaborBrasileiro.{User, UserAvatar, UserRole, Repo, Users.Queries}
+  alias SaborBrasileiro.{User, UserAvatar, Repo, Users.Queries}
 
   def call(params) do
     Multi.new()
     |> Multi.insert(:create_user, User.changeset(params))
     |> Multi.run(:create_avatar, fn repo, %{create_user: %User{id: user_id}} ->
       create_avatar(repo, params, user_id)
-    end)
-    |> Multi.run(:create_role, fn repo, %{create_user: %{id: id}} ->
-      create_role(repo, id)
     end)
     |> Queries.preload_data(:create_user)
     |> run_transaction
@@ -24,14 +21,6 @@ defmodule SaborBrasileiro.Users.Create do
     params
     |> Map.merge(%{"user_id" => user_id})
     |> UserAvatar.changeset()
-  end
-
-  defp create_role(repo, user_id) do
-    %{
-      user_id: user_id
-    }
-    |> UserRole.changeset()
-    |> repo.insert()
   end
 
   defp run_transaction(multi) do

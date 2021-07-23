@@ -29,3 +29,4 @@ sabor_brasileiro-*.tar
 # this depending on your deployment strategy.
 /priv/static/
 .env
+env.bat
