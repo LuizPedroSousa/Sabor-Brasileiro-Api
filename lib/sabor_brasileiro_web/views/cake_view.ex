@@ -1,6 +1,6 @@
 defmodule SaborBrasileiroWeb.CakeView do
   use SaborBrasileiroWeb, :view
-  alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, CakeIngredient}
+  alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, CakeIngredient, CakeRating, User}
 
   def render("find_cakes.json", %{cakes: cakes}) do
     %{
@@ -23,6 +23,21 @@ defmodule SaborBrasileiroWeb.CakeView do
     }
   end
 
+  def render("create_cake.json", cake) do
+    %{
+      ok: "Cake created with successfully",
+      cake: get_cake(cake)
+    }
+  end
+
+  def render("create_cake_rating.json", %{cake_rating: cake_rating}) do
+
+    %{
+      ok: "Cake avaliation created with successfully",
+      cake_rating: get_cake_rating(cake_rating)
+    }
+  end
+
   def render("update_cake_category.json", category) do
     %{
       ok: "category updated with successfully",
@@ -34,13 +49,6 @@ defmodule SaborBrasileiroWeb.CakeView do
     %{
       ok: "category deleted with successfully",
       category: get_many_categories(categories)
-    }
-  end
-
-  def render("create_cake.json", cake) do
-    %{
-      ok: "Cake created with successfully",
-      cake: get_cake(cake)
     }
   end
 
@@ -143,6 +151,41 @@ defmodule SaborBrasileiroWeb.CakeView do
 
   defp get_cake_photo(%CakePhoto{id: id, url: url, cake_id: cake_id, inserted_at: inserted_at}) do
     %{id: id, url: url, inserted_at: inserted_at, cake: cake_id}
+  end
+
+  defp get_cake_rating(%CakeRating{
+         id: id,
+         title: title,
+         description: description,
+         stars: stars,
+         user: %User{} = user,
+         cake: %Cake{} = cake
+       }) do
+    %{
+      id: id,
+      title: title,
+      description: description,
+      stars: stars,
+      user: get_user(user),
+      cake: %{
+        id: cake.id,
+        name: cake.name
+      }
+    }
+  end
+
+  defp get_user(%User{
+         id: id,
+         name: name,
+         surname: surname,
+         nickname: nickname
+       }) do
+    %{
+      id: id,
+      name: name,
+      surname: surname,
+      nickname: nickname
+    }
   end
 
   defp format_ingredients(ingredients) do

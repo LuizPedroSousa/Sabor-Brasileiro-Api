@@ -1,6 +1,6 @@
 defmodule SaborBrasileiroWeb.CakeController do
   use SaborBrasileiroWeb, :controller
-  alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory}
+  alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, CakeRating}
 
   action_fallback SaborBrasileiroWeb.FallbackController
 
@@ -43,6 +43,16 @@ defmodule SaborBrasileiroWeb.CakeController do
       conn
       |> put_status(:created)
       |> render("create_cake_category.json", category: category)
+    end
+  end
+
+  def create_cake_rating(conn, params) do
+    assigns = conn.assigns
+
+    with {:ok, %CakeRating{} = cake_rating} <- SaborBrasileiro.create_cake_rating(params, assigns) do
+      conn
+      |> put_status(:created)
+      |> render("create_cake_rating.json", cake_rating: cake_rating)
     end
   end
 

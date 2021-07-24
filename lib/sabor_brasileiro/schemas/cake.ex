@@ -2,7 +2,7 @@ defmodule SaborBrasileiro.Cake do
   use Ecto.Schema
   import Ecto.Changeset
   alias Ecto.Changeset
-  alias SaborBrasileiro.{CakePhoto, CakeCategory, CakeIngredient}
+  alias SaborBrasileiro.{CakePhoto, CakeCategory, CakeIngredient, CakeRating}
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   @required_params [:name, :kg, :cake_category_id, :stars, :description, :price]
@@ -16,6 +16,7 @@ defmodule SaborBrasileiro.Cake do
     field :kg, :string
     has_many :cake_photos, CakePhoto
     has_many :cake_ingredients, CakeIngredient
+    has_many :cake_rating, CakeRating
     belongs_to :cake_category, CakeCategory
     timestamps()
   end

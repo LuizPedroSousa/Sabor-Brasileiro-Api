@@ -36,10 +36,12 @@ defmodule SaborBrasileiroWeb.Router do
     pipe_through :api
     get "/", CakeController, :find_cakes
     get "/show/:slug", CakeController, :show_cake
-
     get "/categories", CakeController, :find_cake_categories
 
-    pipe_through [CheckAuth, CheckAdmin]
+    pipe_through [CheckAuth]
+    post "/ratings/create", CakeController, :create_cake_rating
+
+    pipe_through [CheckAdmin]
     delete "/delete/:id", CakeController, :delete_cake
     post "/create", CakeController, :create_cake
     put "/update/:slug", CakeController, :update_cake

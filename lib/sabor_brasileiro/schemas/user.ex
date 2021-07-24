@@ -2,7 +2,7 @@ defmodule SaborBrasileiro.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias Ecto.Changeset
-  alias SaborBrasileiro.{UserAvatar, BestConfectioner, RefreshToken}
+  alias SaborBrasileiro.{UserAvatar, BestConfectioner, RefreshToken, CakeRating}
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @required_params [:name, :nickname, :surname, :email, :password]
@@ -20,6 +20,7 @@ defmodule SaborBrasileiro.User do
     has_one :user_avatar, UserAvatar
     has_one :best_confectioner, BestConfectioner
     has_one :refresh_token, RefreshToken
+    has_one :cake_rating, CakeRating
     timestamps()
   end
 
