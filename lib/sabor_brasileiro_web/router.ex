@@ -1,6 +1,6 @@
 defmodule SaborBrasileiroWeb.Router do
   use SaborBrasileiroWeb, :router
-  alias SaborBrasileiroWeb.Plugs.Auth.{CheckAuth, CheckAdmin}
+  alias SaborBrasileiroWeb.Plugs.{CheckUUID, Auth.CheckAuth, Auth.CheckAdmin}
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -44,10 +44,12 @@ defmodule SaborBrasileiroWeb.Router do
     post "/ratings/create", CakeController, :create_cake_rating
 
     pipe_through [CheckAdmin]
-    delete "/delete/:id", CakeController, :delete_cake
     post "/create", CakeController, :create_cake
     put "/update/:slug", CakeController, :update_cake
     post "/categories/create", CakeController, :create_cake_category
+
+    pipe_through [CheckUUID]
+    delete "/delete/:id", CakeController, :delete_cake
     put "/categories/update/:id", CakeController, :update_cake_category
     delete "/categories/delete/:id", CakeController, :delete_cake_categories
     put "/photos/update/:id", CakeController, :update_cake_photo
