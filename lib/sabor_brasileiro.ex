@@ -1,6 +1,7 @@
 defmodule SaborBrasileiro do
   # Users
   alias SaborBrasileiro.Users.Create, as: UserCreate
+  alias SaborBrasileiro.Users.Show, as: UserShow
   alias SaborBrasileiro.Users.Auth.ValidateCredentials, as: UserAuthCredentials
   alias SaborBrasileiro.Users.Auth.ValidateUserPin, as: UserAuthPin
 
@@ -58,6 +59,7 @@ defmodule SaborBrasileiro do
   defdelegate create_user(params), to: UserCreate, as: :call
   defdelegate auth_user_credentials(params), to: UserAuthCredentials, as: :call
   defdelegate validate_user_pin(params), to: UserAuthPin, as: :call
+  defdelegate show_user(assigns), to: UserShow, as: :call
 
   # Best Confectioners
   defdelegate create_best_confectioner(id), to: BestConfectionerCreate, as: :call

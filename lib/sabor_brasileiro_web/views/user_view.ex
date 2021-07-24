@@ -12,6 +12,13 @@ defmodule SaborBrasileiroWeb.UserView do
     }
   end
 
+  def render("show_user.json", %{user: user}) do
+    %{
+      ok: "Show user data with successfully",
+      user: get_user(user)
+    }
+  end
+
   def render("send_authentication_email.json", _) do
     %{
       ok: "Sended pin code to user email"

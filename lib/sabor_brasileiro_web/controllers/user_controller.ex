@@ -15,6 +15,14 @@ defmodule SaborBrasileiroWeb.UserController do
     end
   end
 
+  def show_user(conn, _params) do
+    with {:ok, %User{} = user} <- SaborBrasileiro.show_user(conn.assigns) do
+      conn
+      |> put_status(:ok)
+      |> render("show_user.json", user: user)
+    end
+  end
+
   def auth_user_credentials(conn, params) do
     with {:ok, %User{} = user, %TemporaryUserPin{} = pin} <-
            SaborBrasileiro.auth_user_credentials(params) do
