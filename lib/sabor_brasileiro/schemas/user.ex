@@ -2,7 +2,7 @@ defmodule SaborBrasileiro.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias Ecto.Changeset
-  alias SaborBrasileiro.{UserAvatar, BestConfectioner, RefreshToken, CakeRating}
+  alias SaborBrasileiro.{UserAvatar, RefreshToken, CakeRating}
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @required_params [:name, :nickname, :surname, :email, :password]
@@ -17,8 +17,8 @@ defmodule SaborBrasileiro.User do
     field :isUser, :boolean, null: false, default: true
     field :isConfectioner, :boolean, null: false, default: false
     field :isAdmin, :boolean, null: false, default: false
+    field :isBestConfectioner, :boolean, null: false, default: false
     has_one :user_avatar, UserAvatar
-    has_one :best_confectioner, BestConfectioner
     has_one :refresh_token, RefreshToken
     has_one :cake_rating, CakeRating
     timestamps()
@@ -34,6 +34,26 @@ defmodule SaborBrasileiro.User do
     |> unique_constraint([:email])
     |> unique_constraint([:nickname])
     |> put_password_hash
+  end
+
+  def changeset_update(struct, params) do
+    IO.inspect({struct, params})
+
+    struct
+    |> cast(params, [
+      :name,
+      :surname,
+      :isBestConfectioner,
+      :isConfectioner,
+      :email,
+      :nickname,
+      :password_hash
+    ])
+    |> validate_required([:name, :surname, :email, :nickname, :password_hash])
+    |> validate_length(:nickname, min: 4)
+    |> validate_format(:email, ~r/(\w+)@([\w.]+)/)
+    |> unique_constraint([:email])
+    |> unique_constraint([:nickname])
   end
 
   def changeset_auth(params) do

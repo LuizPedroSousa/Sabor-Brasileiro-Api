@@ -22,13 +22,13 @@ defmodule SaborBrasileiroWeb.Router do
   end
 
   # BestConfectioner
-  scope "/best_confectioners", SaborBrasileiroWeb do
+  scope "/users/best_confectioners", SaborBrasileiroWeb do
     pipe_through :api
-    get "/", BestConfectionerController, :index
+
+    get "/", UserRoleController, :find_best_confectioners
 
     pipe_through [CheckAuth, CheckAdmin]
-    delete "/delete/:id", BestConfectionerController, :delete
-    post "/create", BestConfectionerController, :create
+    put "/create", UserRoleController, :create_best_confectioner
   end
 
   # Cake

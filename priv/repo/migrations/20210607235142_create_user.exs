@@ -11,6 +11,7 @@ defmodule SaborBrasileiro.Repo.Migrations.CreateUser do
       add :isUser, :boolean
       add :isConfectioner, :boolean
       add :isAdmin, :boolean
+      add :isBestConfectioner, :boolean
       timestamps()
     end
 
