@@ -1,6 +1,5 @@
 defmodule SaborBrasileiro.TemporaryUserPin.Queries do
   import Ecto.Query
-  alias Ecto.{Multi}
   alias SaborBrasileiro.{TemporaryUserPin}
 
   def get_with(query) do
