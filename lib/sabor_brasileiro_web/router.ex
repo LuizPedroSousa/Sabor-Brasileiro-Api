@@ -38,6 +38,8 @@ defmodule SaborBrasileiroWeb.Router do
     get "/show/:slug", CakeController, :show_cake
     get "/categories", CakeController, :find_cake_categories
 
+    get "/ratings", CakeController, :find_cake_ratings
+
     pipe_through [CheckAuth]
     post "/ratings/create", CakeController, :create_cake_rating
 

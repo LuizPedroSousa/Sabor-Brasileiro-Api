@@ -17,11 +17,11 @@ defmodule SaborBrasileiro.Cakes.Queries do
   end
 
   defp compose_query({"order", "desc"}, query) do
-    order_by(query, [cc], desc: [cc.inserted_at])
+    order_by(query, [c], desc: [c.inserted_at])
   end
 
   defp compose_query({"order", "asc"}, query) do
-    order_by(query, [cc], asc: [cc.inserted_at])
+    order_by(query, [c], asc: [c.inserted_at])
   end
 
   defp compose_query({"_limit", limit_c}, query) do
@@ -30,7 +30,7 @@ defmodule SaborBrasileiro.Cakes.Queries do
 
   defp compose_query({"name", name}, query) do
     name_like = "%#{name}%"
-    where(query, [ac], ilike(ac.name, ^name_like))
+    where(query, [c], ilike(c.name, ^name_like))
   end
 
   defp compose_query({"category", category_slug}, query) do

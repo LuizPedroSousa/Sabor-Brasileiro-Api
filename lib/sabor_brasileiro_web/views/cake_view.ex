@@ -1,6 +1,15 @@
 defmodule SaborBrasileiroWeb.CakeView do
   use SaborBrasileiroWeb, :view
-  alias SaborBrasileiro.{Cake, CakePhoto, CakeCategory, CakeIngredient, CakeRating, User}
+
+  alias SaborBrasileiro.{
+    Cake,
+    CakePhoto,
+    CakeCategory,
+    CakeIngredient,
+    CakeRating,
+    User,
+    UserAvatar
+  }
 
   def render("find_cakes.json", %{cakes: cakes}) do
     %{
@@ -13,6 +22,13 @@ defmodule SaborBrasileiroWeb.CakeView do
     %{
       ok: "Get categories with successfully",
       categories: get_many_categories(categories)
+    }
+  end
+
+  def render("find_cake_ratings.json", %{cake_ratings: cake_ratings}) do
+    %{
+      ok: "Get Cake avaliations with successfully",
+      ratings: get_cake_ratings(cake_ratings)
     }
   end
 
@@ -31,7 +47,6 @@ defmodule SaborBrasileiroWeb.CakeView do
   end
 
   def render("create_cake_rating.json", %{cake_rating: cake_rating}) do
-
     %{
       ok: "Cake avaliation created with successfully",
       cake_rating: get_cake_rating(cake_rating)
@@ -169,22 +184,38 @@ defmodule SaborBrasileiroWeb.CakeView do
       user: get_user(user),
       cake: %{
         id: cake.id,
-        name: cake.name
+        name: cake.name,
+        category: cake.cake_category.name
       }
     }
+  end
+
+  defp get_cake_ratings(cake_ratings) do
+    cake_ratings
+    |> Enum.map(fn %CakeRating{} = cake_rating ->
+      cake_rating |> get_cake_rating()
+    end)
   end
 
   defp get_user(%User{
          id: id,
          name: name,
          surname: surname,
-         nickname: nickname
+         user_avatar: %UserAvatar{
+           id: avatar_id,
+           url: url
+         },
+         inserted_at: inserted_at
        }) do
     %{
       id: id,
       name: name,
       surname: surname,
-      nickname: nickname
+      avatar: %{
+        id: avatar_id,
+        url: url
+      },
+      inserted_at: inserted_at
     }
   end
 

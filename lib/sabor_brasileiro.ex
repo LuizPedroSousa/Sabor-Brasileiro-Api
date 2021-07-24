@@ -23,6 +23,7 @@ defmodule SaborBrasileiro do
 
   # Cake Ratings
   alias SaborBrasileiro.CakeRatings.Create, as: CakeRatingCreate
+  alias SaborBrasileiro.CakeRatings.Find, as: CakeRatingFind
 
   # Best Confectioners
   alias SaborBrasileiro.BestConfectioners.Create, as: BestConfectionerCreate
@@ -56,9 +57,12 @@ defmodule SaborBrasileiro do
   defdelegate update_cake(slug, params), to: CakeUpdate, as: :call
   defdelegate delete_cake(id), to: CakeDelete, as: :call
 
+  # Cake Photos
   defdelegate update_cake_photo(id, params), to: CakePhotoUpdate, as: :call
 
+  # Cake Ratings
   defdelegate create_cake_rating(params, assigns), to: CakeRatingCreate, as: :call
+  defdelegate find_cake_ratings(query), to: CakeRatingFind, as: :call
 
   # Users
   defdelegate create_user(params), to: UserCreate, as: :call

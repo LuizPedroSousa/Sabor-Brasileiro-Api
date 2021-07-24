@@ -22,6 +22,15 @@ defmodule SaborBrasileiroWeb.CakeController do
     end
   end
 
+  def find_cake_ratings(conn, _params) do
+
+    with {:ok, cake_ratings} <- SaborBrasileiro.find_cake_ratings(conn.query_params) do
+      conn
+      |> put_status(:ok)
+      |> render("find_cake_ratings.json", cake_ratings: cake_ratings)
+    end
+  end
+
   def show_cake(conn, %{"slug" => slug}) do
     with {:ok, %Cake{} = cake} <- SaborBrasileiro.show_cake(slug) do
       conn
