@@ -1,17 +1,17 @@
-defmodule SaborBrasileiro.UserRoles.BestConfectioners.Find do
+defmodule SaborBrasileiro.Users.Find do
   alias Ecto.{Multi}
-  alias SaborBrasileiro.{Repo, UserRoles.BestConfectioners.Queries, Users}
+  alias SaborBrasileiro.{Repo, Users.Queries}
 
   def call(query) do
     Multi.new()
-    |> Multi.run(:get_best_confectioners, fn repo, _ ->
-      get_best_confectioners(repo, query)
+    |> Multi.run(:get_users, fn repo, _ ->
+      get_users(repo, query)
     end)
-    |> Users.Queries.preload_data(:get_best_confectioners)
+    |> Queries.preload_data(:get_users)
     |> run_transaction
   end
 
-  defp get_best_confectioners(repo, query) do
+  defp get_users(repo, query) do
     Queries.get_with(query)
     |> repo.all()
   end

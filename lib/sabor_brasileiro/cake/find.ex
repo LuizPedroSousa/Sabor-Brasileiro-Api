@@ -17,7 +17,6 @@ defmodule SaborBrasileiro.Cakes.Find do
     |> handle_cakes
   end
 
-  defp handle_cakes([]), do: {:error, "Cakes not found"}
   defp handle_cakes(cakes), do: {:ok, cakes}
 
   defp run_transaction(multi) do

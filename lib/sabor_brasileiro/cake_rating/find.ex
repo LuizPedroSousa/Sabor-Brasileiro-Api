@@ -17,7 +17,6 @@ defmodule SaborBrasileiro.CakeRatings.Find do
     |> handle_ratings
   end
 
-  defp handle_ratings([]), do: {:error, "Cake Ratings not found"}
   defp handle_ratings(cake_ratings), do: {:ok, cake_ratings}
 
   defp run_transaction(multi) do

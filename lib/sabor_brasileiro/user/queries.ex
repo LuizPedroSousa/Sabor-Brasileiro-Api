@@ -37,6 +37,10 @@ defmodule SaborBrasileiro.Users.Queries do
     where(query, [u], u.email == ^email)
   end
 
+  defp compose_query({"isBestConfectioner", isBestConfectioner}, query) do
+    where(query, [u], u.isBestConfectioner == ^isBestConfectioner)
+  end
+
   defp compose_query({"nickname", nickname}, query) do
     where(query, [u], u.nickname == ^nickname)
   end

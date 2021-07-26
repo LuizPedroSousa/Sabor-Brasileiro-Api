@@ -17,7 +17,6 @@ defmodule SaborBrasileiro.CakeCategories.Find do
     |> handle_categories
   end
 
-  defp handle_categories([]), do: {:error, "Cake categories not found"}
   defp handle_categories(categories), do: {:ok, categories}
 
   defp run_transaction(multi) do

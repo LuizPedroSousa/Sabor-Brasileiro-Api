@@ -7,7 +7,6 @@ defmodule SaborBrasileiro.FAQ.Articles.Find do
     Multi.new()
     |> Multi.run(:get_articles, fn repo, _ ->
       get_articles(repo, query_params)
-      |> handle_articles()
     end)
     |> Queries.preload_data(:get_articles)
     |> run_transaction
@@ -16,14 +15,10 @@ defmodule SaborBrasileiro.FAQ.Articles.Find do
   defp get_articles(repo, query_params) do
     Queries.get_with(query_params)
     |> repo.all()
+    |> handle_articles
   end
 
-  defp handle_articles(articles) do
-    case articles do
-      [] -> {:error, "Articles not found"}
-      articles -> {:ok, articles}
-    end
-  end
+  defp handle_articles(articles), do: {:ok, articles}
 
   defp run_transaction(multi) do
     case Repo.transaction(multi) do
