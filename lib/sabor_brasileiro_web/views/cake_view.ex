@@ -116,6 +116,7 @@ defmodule SaborBrasileiroWeb.CakeView do
            },
            cake_photos: cake_photos,
            cake_ingredients: cake_ingredients,
+           cake_ratings: cake_ratings,
            inserted_at: inserted_at
          }
        }) do
@@ -130,7 +131,8 @@ defmodule SaborBrasileiroWeb.CakeView do
       price: price,
       category: category_name,
       ingredients: format_ingredients(cake_ingredients),
-      inserted_at: inserted_at
+      inserted_at: inserted_at,
+      ratings: get_cake_ratings(cake_ratings)
     }
   end
 
@@ -175,6 +177,27 @@ defmodule SaborBrasileiroWeb.CakeView do
          stars: stars,
          user: %User{} = user,
          cake: %Cake{} = cake
+       }) do
+    %{
+      id: id,
+      title: title,
+      cake: %{
+        id: cake.id,
+        name: cake.name
+      },
+      description: description,
+      stars: stars,
+      user: get_user(user)
+    }
+  end
+
+  defp get_cake_rating(%CakeRating{
+         id: id,
+         title: title,
+         description: description,
+         stars: stars,
+         user: %User{} = user,
+         cake: %Cake{cake_category: %CakeCategory{}} = cake
        }) do
     %{
       id: id,

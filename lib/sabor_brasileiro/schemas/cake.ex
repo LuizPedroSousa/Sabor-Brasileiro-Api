@@ -16,7 +16,7 @@ defmodule SaborBrasileiro.Cake do
     field :kg, :string
     has_many :cake_photos, CakePhoto
     has_many :cake_ingredients, CakeIngredient
-    has_many :cake_rating, CakeRating
+    has_many :cake_ratings, CakeRating
     belongs_to :cake_category, CakeCategory
     timestamps()
   end

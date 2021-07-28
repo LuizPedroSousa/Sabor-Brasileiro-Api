@@ -1,7 +1,7 @@
 defmodule SaborBrasileiro.Cakes.Queries do
   import Ecto.Query
   alias Ecto.{Multi}
-  alias SaborBrasileiro.{Cake}
+  alias SaborBrasileiro.{Cake, User}
 
   def get_with(query) do
     base_query()
@@ -41,6 +41,10 @@ defmodule SaborBrasileiro.Cakes.Queries do
     |> where([_c, cc], ilike(cc.slug, ^like_category_slug))
   end
 
+  defp compose_query({"id", id}, query) do
+    where(query, [c], c.id == ^id)
+  end
+
   defp compose_query({"ids", ids}, query) do
     where(query, [c], c.id in ^ids)
   end
@@ -71,7 +75,9 @@ defmodule SaborBrasileiro.Cakes.Queries do
        repo.preload(map[key], [
          :cake_photos,
          :cake_ingredients,
-         :cake_category
+         :cake_category,
+         :cake_ratings,
+         cake_ratings: [:cake, :user, user: :user_avatar]
        ])}
     end)
   end

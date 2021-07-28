@@ -15,6 +15,7 @@ defmodule SaborBrasileiro.CakeRatings.Create do
   end
 
   defp get_cake(repo, %{"cake_id" => cake_id}) do
+    IO.inspect(cake_id)
     Cakes.Queries.get_with(%{"id" => cake_id})
     |> repo.one()
     |> handle_cake
