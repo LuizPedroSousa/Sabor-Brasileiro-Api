@@ -110,7 +110,6 @@ defmodule SaborBrasileiroWeb.CakeView do
            price: price,
            slug: slug,
            kg: kg,
-           stars: stars,
            cake_category: %CakeCategory{
              name: category_name
            },
@@ -127,7 +126,6 @@ defmodule SaborBrasileiroWeb.CakeView do
       kg: kg,
       photos: get_cake_photos(cake_photos),
       slug: slug,
-      stars: stars,
       price: price,
       category: category_name,
       ingredients: format_ingredients(cake_ingredients),

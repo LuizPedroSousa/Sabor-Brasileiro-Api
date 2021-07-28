@@ -5,14 +5,13 @@ defmodule SaborBrasileiro.Cake do
   alias SaborBrasileiro.{CakePhoto, CakeCategory, CakeIngredient, CakeRating}
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  @required_params [:name, :kg, :cake_category_id, :stars, :description, :price]
+  @required_params [:name, :kg, :cake_category_id, :description, :price]
 
   schema "cakes" do
     field :name, :string
     field :description, :string
     field :slug, :string
     field :price, :string
-    field :stars, :integer, default: 0
     field :kg, :string
     has_many :cake_photos, CakePhoto
     has_many :cake_ingredients, CakeIngredient
@@ -27,7 +26,6 @@ defmodule SaborBrasileiro.Cake do
     |> unique_constraint([:name])
     |> unique_constraint([:slug])
     |> validate_required(@required_params)
-    |> validate_number(:stars, greater_than_or_equal_to: 0, less_than_or_equal_to: 5)
     |> put_slug
   end
 
@@ -37,7 +35,6 @@ defmodule SaborBrasileiro.Cake do
     |> unique_constraint([:name])
     |> unique_constraint([:slug])
     |> validate_required(@required_params)
-    |> validate_number(:stars, greater_than_or_equal_to: 0, less_than_or_equal_to: 5)
     |> put_slug
     |> change
   end

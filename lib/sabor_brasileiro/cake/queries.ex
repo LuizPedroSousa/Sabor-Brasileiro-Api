@@ -1,7 +1,7 @@
 defmodule SaborBrasileiro.Cakes.Queries do
   import Ecto.Query
   alias Ecto.{Multi}
-  alias SaborBrasileiro.{Cake, User}
+  alias SaborBrasileiro.{Cake}
 
   def get_with(query) do
     base_query()
