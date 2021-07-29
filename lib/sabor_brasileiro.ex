@@ -28,7 +28,6 @@ defmodule SaborBrasileiro do
   # Best Confectioners
   alias SaborBrasileiro.UserRoles.BestConfectioners.Create, as: BestConfectionerCreate
   alias SaborBrasileiro.UserRoles.BestConfectioners.Find, as: BestConfectionerFind
-  alias SaborBrasileiro.BestConfectioners.Delete, as: BestConfectionerDelete
 
   # FAQ Articles Categories
   alias SaborBrasileiro.FAQ.ArticlesCategories.Create, as: FAQArticleCategoryCreate
@@ -72,7 +71,6 @@ defmodule SaborBrasileiro do
 
   # Best Confectioners
   defdelegate create_best_confectioner(id), to: BestConfectionerCreate, as: :call
-  defdelegate delete_best_confectioner(id), to: BestConfectionerDelete, as: :call
   defdelegate find_best_confectioners(query), to: BestConfectionerFind, as: :call
 
   # FAQ Articles Categories

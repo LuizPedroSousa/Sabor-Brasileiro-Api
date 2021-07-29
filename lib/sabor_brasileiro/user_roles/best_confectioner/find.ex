@@ -14,7 +14,10 @@ defmodule SaborBrasileiro.UserRoles.BestConfectioners.Find do
   defp get_best_confectioners(repo, query) do
     Queries.get_with(query)
     |> repo.all()
+    |> handle_best_confectioners
   end
+
+  defp handle_best_confectioners(users), do: {:ok, users}
 
   defp run_transaction(multi) do
     case Repo.transaction(multi) do
