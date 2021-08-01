@@ -16,6 +16,7 @@ defmodule SaborBrasileiroWeb.Router do
     post "/create", UserController, :create_user
     post "/auth", UserController, :auth_user_credentials
     post "/auth/validate/pin", UserController, :auth_user_pin
+    post "/nickname-check", UserController, :check_available_user_nickname
 
     pipe_through [CheckAuth]
     get "/show", UserController, :show_user

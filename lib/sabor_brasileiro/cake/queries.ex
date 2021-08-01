@@ -33,12 +33,20 @@ defmodule SaborBrasileiro.Cakes.Queries do
     where(query, [c], ilike(c.name, ^name_like))
   end
 
-  defp compose_query({"category", category_slug}, query) do
+  defp compose_query({"category_slug", category_slug}, query) do
     like_category_slug = "%#{category_slug}%"
 
     query
     |> join(:left, [c], cc in assoc(c, :cake_category))
     |> where([_c, cc], ilike(cc.slug, ^like_category_slug))
+  end
+
+  defp compose_query({"category_name", category_name}, query) do
+    like_category_name = "%#{category_name}%"
+
+    query
+    |> join(:left, [c], cc in assoc(c, :cake_category))
+    |> where([_c, cc], ilike(cc.name, ^like_category_name))
   end
 
   defp compose_query({"id", id}, query) do

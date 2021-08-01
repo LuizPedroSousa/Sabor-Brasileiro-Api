@@ -173,6 +173,8 @@ defmodule SaborBrasileiroWeb.CakeView do
          title: title,
          description: description,
          stars: stars,
+         inserted_at: inserted_at,
+         updated_at: updated_at,
          user: %User{} = user,
          cake: %Cake{} = cake
        }) do
@@ -185,7 +187,9 @@ defmodule SaborBrasileiroWeb.CakeView do
       },
       description: description,
       stars: stars,
-      user: get_user(user)
+      user: get_user(user),
+      inserted_at: inserted_at,
+      updated_at: updated_at
     }
   end
 
@@ -194,6 +198,8 @@ defmodule SaborBrasileiroWeb.CakeView do
          title: title,
          description: description,
          stars: stars,
+         inserted_at: inserted_at,
+         updated_at: updated_at,
          user: %User{} = user,
          cake: %Cake{cake_category: %CakeCategory{}} = cake
        }) do
@@ -207,7 +213,9 @@ defmodule SaborBrasileiroWeb.CakeView do
         id: cake.id,
         name: cake.name,
         category: cake.cake_category.name
-      }
+      },
+      inserted_at: inserted_at,
+      updated_at: updated_at
     }
   end
 
