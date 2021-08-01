@@ -5,6 +5,9 @@ defmodule SaborBrasileiroWeb.UserView do
   alias SaborBrasileiro.Users.Auth.ValidateUserPin.Response,
     as: ValidateUserPinResponse
 
+  alias SaborBrasileiro.Users.Availables.CheckNickname.Response,
+    as: CheckUserNicknameResponse
+
   def render("create_user.json", %{user: user}) do
     %{
       ok: "user created with successfully",
@@ -33,6 +36,14 @@ defmodule SaborBrasileiroWeb.UserView do
       user: get_user(user),
       access_token: tokens.access_token,
       refresh_token: tokens.refresh_token
+    }
+  end
+
+  def render("check_user_nickname.json", %{
+        response: %CheckUserNicknameResponse{isNicknameAvailable: isNicknameAvailable}
+      }) do
+    %{
+      isNicknameAvailable: isNicknameAvailable
     }
   end
 

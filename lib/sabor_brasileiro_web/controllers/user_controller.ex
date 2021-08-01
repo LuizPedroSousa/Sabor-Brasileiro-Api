@@ -5,6 +5,9 @@ defmodule SaborBrasileiroWeb.UserController do
   alias SaborBrasileiro.Users.Auth.ValidateUserPin.Response,
     as: ValidateUserPinResponse
 
+  alias SaborBrasileiro.Users.Availables.CheckNickname.Response,
+    as: CheckUserNicknameResponse
+
   action_fallback(SaborBrasileiroWeb.FallbackController)
 
   def create_user(conn, params) do
@@ -39,6 +42,15 @@ defmodule SaborBrasileiroWeb.UserController do
       conn
       |> put_status(:ok)
       |> render("authenticate_user.json", response: response)
+    end
+  end
+
+  def check_available_user_nickname(conn, params) do
+    with {:ok, %CheckUserNicknameResponse{} = response} <-
+           SaborBrasileiro.check_user_nickname_available(params) do
+      conn
+      |> put_status(:ok)
+      |> render("check_user_nickname.json", response: response)
     end
   end
 end
