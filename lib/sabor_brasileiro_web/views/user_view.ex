@@ -2,8 +2,8 @@ defmodule SaborBrasileiroWeb.UserView do
   use SaborBrasileiroWeb, :view
   alias SaborBrasileiro.{User, UserAvatar}
 
-  alias SaborBrasileiro.Users.Auth.ValidateUserPin.Response,
-    as: ValidateUserPinResponse
+  alias SaborBrasileiro.Users.Auth.ValidateUserOTP.Response,
+    as: ValidateUserOTPResponse
 
   alias SaborBrasileiro.Users.Availables.CheckNickname.Response,
     as: CheckUserNicknameResponse
@@ -29,7 +29,7 @@ defmodule SaborBrasileiroWeb.UserView do
   end
 
   def render("authenticate_user.json", %{
-        response: %ValidateUserPinResponse{user: user, tokens: tokens}
+        response: %ValidateUserOTPResponse{user: user, tokens: tokens}
       }) do
     %{
       ok: "User authenticated with successfully",

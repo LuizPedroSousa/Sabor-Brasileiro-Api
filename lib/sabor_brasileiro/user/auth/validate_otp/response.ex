@@ -1,4 +1,4 @@
-defmodule SaborBrasileiro.Users.Auth.ValidateUserPin.Response do
+defmodule SaborBrasileiro.Users.Auth.ValidateUserOTP.Response do
   defstruct [:user, :tokens]
 
   alias SaborBrasileiro.{User}

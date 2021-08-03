@@ -1,26 +1,26 @@
-defmodule SaborBrasileiro.Users.Auth.ValidateUserPin do
+defmodule SaborBrasileiro.Users.Auth.ValidateOTP do
   alias Ecto.{Multi}
 
   alias SaborBrasileiro.{
     User,
     Repo,
-    TemporaryUserPin,
+    UserOTP,
     Users.Queries,
     Utils.TokenUtils,
     RefreshToken
   }
 
-  alias SaborBrasileiro.Users.Auth.ValidateUserPin.Response, as: ValidateResponse
+  alias SaborBrasileiro.Users.Auth.ValidateUserOTP.Response, as: ValidateResponse
 
   def call(params) do
     Multi.new()
-    |> Multi.run(:get_pin, fn repo, _ ->
-      get_temporary_pin(repo, params)
+    |> Multi.run(:get_otp, fn repo, _ ->
+      get_user_otp(repo, params)
     end)
-    |> Multi.delete_all(:delete_pins, fn %{get_pin: %TemporaryUserPin{user_id: user_id}} ->
-      TemporaryUserPin.Queries.get_with(%{"user_id" => user_id})
+    |> Multi.delete_all(:delete_otps, fn %{get_otp: %UserOTP{user_id: user_id}} ->
+      UserOTP.Queries.get_with(%{"user_id" => user_id})
     end)
-    |> Multi.run(:get_user, fn repo, %{get_pin: %TemporaryUserPin{user_id: user_id}} ->
+    |> Multi.run(:get_user, fn repo, %{get_otp: %UserOTP{user_id: user_id}} ->
       get_user(repo, user_id)
     end)
     |> Multi.run(:create_refresh_token, fn repo, %{get_user: %User{} = user} ->
@@ -42,14 +42,14 @@ defmodule SaborBrasileiro.Users.Auth.ValidateUserPin do
     |> run_transaction
   end
 
-  defp get_temporary_pin(repo, %{"pin" => pin}) do
-    TemporaryUserPin.Queries.get_with(%{"pin" => pin})
+  defp get_user_otp(repo, %{"code" => code}) do
+    UserOTP.Queries.get_with(%{"otp_code" => code})
     |> repo.one
-    |> handle_pin
-    |> validate_pin_expiration
+    |> handle_otp
+    |> validate_otp_expiration
   end
 
-  defp get_temporary_pin(_repo, _), do: {:error, %{pin: ["can't be blank"]}}
+  defp get_user_otp(_repo, _), do: {:error, %{code: ["can't be blank"]}}
 
   defp get_user(repo, user_id) do
     Queries.get_with(%{"id" => user_id})
@@ -81,21 +81,19 @@ defmodule SaborBrasileiro.Users.Auth.ValidateUserPin do
     end
   end
 
-  defp validate_pin_expiration(%TemporaryUserPin{expires_in: expires_in} = pin) do
-    now =
-      Timex.now()
-      |> Timex.to_unix()
-
-    case expires_in < now do
-      true -> {:error, "Expired pin code"}
-      false -> {:ok, pin}
-    end
+  defp validate_otp_expiration(%UserOTP{otp_code: otp_code, otp_secret: otp_secret} = otp) do
+    otp_code
+    |> OneTimePassEcto.Base.check_totp(otp_secret, interval_length: 600)
+    |> validate_otp_expiration(otp)
   end
 
-  defp validate_pin_expiration(error), do: error
+  defp validate_otp_expiration(error), do: error
 
-  defp handle_pin(%TemporaryUserPin{} = pin), do: pin
-  defp handle_pin(_), do: {:error, "Pin code not found"}
+  defp validate_otp_expiration(false, _), do: {:error, "Code expired"}
+  defp validate_otp_expiration(_, otp), do: {:ok, otp}
+
+  defp handle_otp(%UserOTP{} = otp), do: otp
+  defp handle_otp(_), do: {:error, "Code not found"}
 
   defp handle_user(%User{} = user), do: {:ok, user}
   defp handle_user(_), do: {:error, "User not found"}

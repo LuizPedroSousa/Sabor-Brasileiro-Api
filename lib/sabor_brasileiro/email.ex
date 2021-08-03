@@ -1,11 +1,13 @@
 defmodule SaborBrasileiro.Email do
   import Bamboo.Email
   use Bamboo.Phoenix, view: SaborBrasileiroWeb.EmailView
-  alias SaborBrasileiro.{User, TemporaryUserPin}
+  alias SaborBrasileiro.{User, UserOTP}
+
+  alias SaborBrasileiro.Users.Auth.ValidateCredentials.OTPResponse
 
   def send_auth_pin(
         %User{email: email, name: name},
-        %TemporaryUserPin{pin: pin, expires_in: expires_in},
+        %UserOTP{otp_code: otp_code, expires_in: expires_in},
         conn
       ) do
     ip =
@@ -14,7 +16,7 @@ defmodule SaborBrasileiro.Email do
 
     assigns = [
       name: name,
-      pin: pin,
+      pin: otp_code,
       location: "São paulo, Sp",
       expires_in:
         Timex.from_unix(expires_in)
@@ -28,7 +30,7 @@ defmodule SaborBrasileiro.Email do
     new_email(
       to: email,
       from: "support@saborbrasileiro.com",
-      subject: "Seu código de verificação de login da loja #{pin}"
+      subject: "Seu código de verificação de login da loja #{otp_code}"
     )
     |> render("auth_pin.html", assigns)
     |> SaborBrasileiro.Mailer.deliver_now!()

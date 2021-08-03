@@ -1,6 +1,9 @@
 defmodule SaborBrasileiro.Users.Auth.ValidateCredentials do
   alias Ecto.{Multi, Changeset}
-  alias SaborBrasileiro.{User, Repo, Users.Queries, Utils.Generate, TemporaryUserPin}
+  alias SaborBrasileiro.{User, Repo, Users.Queries, UserOTP}
+
+  alias SaborBrasileiro.Users.Auth.ValidateCredentials.Response,
+    as: ValidateCredentialsResponse
 
   def call(params) do
     Multi.new()
@@ -13,8 +16,8 @@ defmodule SaborBrasileiro.Users.Auth.ValidateCredentials do
         validate_password(user_password, params)
       end
     )
-    |> Multi.insert(:generate_pin, fn %{get_by_nickname: %User{id: user_id}} ->
-      temporary_pin_changeset(user_id)
+    |> Multi.insert(:generate_otp, fn %{get_by_nickname: %User{id: user_id}} ->
+      gen_secret_changeset(user_id)
     end)
     |> run_transaction
   end
@@ -31,11 +34,12 @@ defmodule SaborBrasileiro.Users.Auth.ValidateCredentials do
     end
   end
 
-  defp temporary_pin_changeset(user_id) do
-    pin = Generate.random_n_char_number_string(6)
+  defp gen_secret_changeset(user_id) do
+    otp_secret = OneTimePassEcto.Base.gen_secret(32)
+    otp_code = otp_secret |> OneTimePassEcto.Base.gen_totp([{:interval_length, 600}])
 
-    %{user_id: user_id, pin: pin}
-    |> TemporaryUserPin.changeset()
+    %{user_id: user_id, otp_code: otp_code, otp_secret: otp_secret}
+    |> UserOTP.changeset()
   end
 
   defp handle_user(%User{} = user), do: {:ok, user}
@@ -53,8 +57,11 @@ defmodule SaborBrasileiro.Users.Auth.ValidateCredentials do
 
   defp run_transaction(multi) do
     case Repo.transaction(multi) do
-      {:error, _operation, reason, _changes} -> {:error, reason}
-      {:ok, %{get_by_nickname: user, generate_pin: pin}} -> {:ok, user, pin}
+      {:error, _operation, reason, _changes} ->
+        {:error, reason}
+
+      {:ok, %{get_by_nickname: user, generate_otp: otp}} ->
+        {:ok, ValidateCredentialsResponse.build(user, otp)}
     end
   end
 end

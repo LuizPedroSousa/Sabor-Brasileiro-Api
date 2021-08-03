@@ -1,12 +1,15 @@
 defmodule SaborBrasileiroWeb.UserController do
   use SaborBrasileiroWeb, :controller
-  alias SaborBrasileiro.{User, TemporaryUserPin}
+  alias SaborBrasileiro.{User}
 
-  alias SaborBrasileiro.Users.Auth.ValidateUserPin.Response,
-    as: ValidateUserPinResponse
+  alias SaborBrasileiro.Users.Auth.ValidateUserOTP.Response,
+    as: ValidateUserOTPResponse
 
   alias SaborBrasileiro.Users.Availables.CheckNickname.Response,
     as: CheckUserNicknameResponse
+
+  alias SaborBrasileiro.Users.Auth.ValidateCredentials.Response,
+    as: ValidateUserCredentialsResponse
 
   action_fallback(SaborBrasileiroWeb.FallbackController)
 
@@ -27,9 +30,9 @@ defmodule SaborBrasileiroWeb.UserController do
   end
 
   def auth_user_credentials(conn, params) do
-    with {:ok, %User{} = user, %TemporaryUserPin{} = pin} <-
+    with {:ok, %ValidateUserCredentialsResponse{user: user, user_otp: otp}} <-
            SaborBrasileiro.auth_user_credentials(params) do
-      with :ok <- SaborBrasileiro.Email.send_auth_pin(user, pin, conn) do
+      with :ok <- SaborBrasileiro.Email.send_auth_pin(user, otp, conn) do
         conn
         |> put_status(:ok)
         |> render("send_authentication_email.json", user: user)
@@ -37,8 +40,8 @@ defmodule SaborBrasileiroWeb.UserController do
     end
   end
 
-  def auth_user_pin(conn, params) do
-    with {:ok, %ValidateUserPinResponse{} = response} <- SaborBrasileiro.validate_user_pin(params) do
+  def auth_user_otp(conn, params) do
+    with {:ok, %ValidateUserOTPResponse{} = response} <- SaborBrasileiro.validate_user_otp(params) do
       conn
       |> put_status(:ok)
       |> render("authenticate_user.json", response: response)
