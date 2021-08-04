@@ -51,33 +51,26 @@ defmodule SaborBrasileiroWeb.UserView do
     }
   end
 
-  defp get_user(%User{
-         id: id,
-         name: name,
-         surname: surname,
-         email: email,
-         nickname: nickname,
-         user_avatar: %UserAvatar{
-           id: avatar_id,
-           url: url,
-           user_id: user_id,
-           inserted_at: photo_inserted_at
-         },
-         inserted_at: inserted_at
-       }) do
+  defp get_user(
+         %User{
+           user_avatar: %UserAvatar{} = user_avatar
+         } = user
+       ) do
     %{
-      id: id,
-      name: name,
-      surname: surname,
-      email: email,
-      nickname: nickname,
+      id: user.id,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      nickname: user.nickname,
       avatar: %{
-        id: avatar_id,
-        url: url,
-        user_id: user_id,
-        inserted_at: photo_inserted_at
+        id: user_avatar.id,
+        url: user_avatar.url,
+        user_id: user.id,
+        inserted_at: user_avatar.inserted_at
       },
-      inserted_at: inserted_at
+      isAdmin: user.isAdmin,
+      isConfectioner: user.isConfectioner,
+      inserted_at: user.inserted_at
     }
   end
 end

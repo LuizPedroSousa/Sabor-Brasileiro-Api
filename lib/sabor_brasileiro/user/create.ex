@@ -12,8 +12,13 @@ defmodule SaborBrasileiro.Users.Create do
     |> run_transaction
   end
 
-  defp create_avatar(repo, params, user_id) do
-    avatar_changeset(params, user_id)
+  defp create_avatar(repo, %{"avatar" => avatar}, user_id) do
+    avatar_changeset(%{"avatar" => avatar}, user_id)
+    |> repo.insert()
+  end
+
+  defp create_avatar(repo, _, user_id) do
+    avatar_changeset(%{"avatar" => %{"url" => ""}}, user_id)
     |> repo.insert()
   end
 
