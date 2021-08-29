@@ -3,7 +3,7 @@ alias Ecto.Changeset
 
 user_admin_params = %{
   "name" => "Crispim Borges",
-  "surname" => "Lemos",
+  "surname" => "De Meneses",
   "email" => "crispimborges@gmail.com",
   "password" => "123456",
   "nickname" => "crispimborges",
